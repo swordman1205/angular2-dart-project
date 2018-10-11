@@ -1,0 +1,50 @@
+<h3>Cards:</h3>
+<div class="Rtable Rtable--3cols">
+    <template ngFor let-currentCard [ngForOf]="cards" let-isStriped="even">
+        <span [class.is-striped]="isStriped" class="Rtable-cell type">{{currentCard.type | enum: 'cardType'}}</span>
+        <span [class.is-striped]="isStriped" class="Rtable-cell email">{{currentCard.note}}</span>
+        <span [class.is-striped]="isStriped" class="Rtable-cell createDate">{{currentCard.createDate | date:'mediumDate'}}</span>
+    </template>
+    <p *ngIf="cards?.length == 0">No cards yet</p>
+</div>
+
+<h3>Create card:</h3>
+<form #cardForm="ngForm">
+    <div>
+        <material-dropdown-select
+                [buttonText]="cardTypeSelectedLabel"
+                [selection]="cardTypeSelection"
+                [options]="cardTypeOptions"
+                [popupMatchInputWidth]="true"
+                [itemRenderer]="itemRenderer"
+                required>
+        </material-dropdown-select>
+        <p class="error" *ngIf="showTypeRequired">type is required</p>
+    </div>
+    <material-input label="Note?"
+                    floatingLabel style="width:80%"
+                    [(ngModel)]="card.note"
+                    required>
+    </material-input>
+    <div class="actions">
+        <material-button autoFocus
+                         clear-size
+                         (trigger)="createCard()"
+                         [disabled]="!cardForm.valid"
+                         class="white">
+            Create card
+        </material-button>
+    </div>
+    <p class="error" *ngIf="createCardError != null">{{createCardError}}</p>
+</form>
+<modal [visible]="showInfoDialog">
+    <material-dialog info class="info-dialog material-dialog--external purple">
+        <div header>
+            <material-button icon autoFocus (trigger)="showInfoDialog = false">
+                <material-icon icon="close"></material-icon>
+            </material-button>
+
+            <h3>Card created</h3>
+        </div>
+    </material-dialog>
+</modal>

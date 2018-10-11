@@ -1,0 +1,119 @@
+<template [ngIf]="customer != null">
+    <section>
+        <h2>Customer information</h2>
+        <table>
+            <tr>
+                <td><strong>Full name:</strong></td>
+                <td>{{customer.fullName}}</td>
+            </tr>
+            <tr>
+                <td><strong>Age:</strong></td>
+                <td>{{customer.dateOfBirth | age}}</td>
+            </tr>
+            <tr>
+                <td><strong>Address:</strong></td>
+                <td>
+                    <p>{{customer.addressLine}}</p>
+                    <p>{{customer.city}}</p>
+                    <p>{{customer.state}}</p>
+                    <p>{{customer.zip}}</p>
+                    <p>{{customer.country}}</p>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Phone:</strong></td>
+                <td>{{customer.phone}}</td>
+            </tr>
+            <tr>
+                <td><strong>Call times:</strong></td>
+                <td>
+                    {{customer.contactDay | enum: 'contactDays'}}:
+                    <span *ngFor="let ct of customer.contactTimes; let isLast=last;">
+                        {{ct | enum: 'contactTime'}}
+                        <span *ngIf="!isLast">, </span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Email:</strong></td>
+                <td>{{customer.email}}</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Health information</h2>
+        <table>
+            <tr>
+                <td><strong>Weight:</strong></td>
+                <td>{{healthInfo?.weight}}</td>
+            </tr>
+            <tr>
+                <td><strong>Height:</strong></td>
+                <td>{{healthInfo?.height}}</td>
+            </tr>
+            <tr>
+                <td><strong>Partner status:</strong></td>
+                <td>{{healthInfo?.sexualActivity | enum: 'sexualActivity'}}</td>
+            </tr>
+            <tr>
+                <td><strong>Birth control:</strong></td>
+                <td>
+                    <div *ngIf="healthInfo?.birthControls != null">
+                        <span *ngFor="let bc of healthInfo.birthControls; let isLast=last;">
+                            {{bc | enum: 'birthControl'}}
+                            <span *ngIf="!isLast">, </span>
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Period information</h2>
+        <table>
+            <tr>
+                <td><strong>1st day of last period:</strong></td>
+                <td>{{healthInfo?.firstDateOfLastPeriod | date:'MM.dd.y'}}</td>
+            </tr>
+            <tr>
+                <td><strong>Typical period length:</strong></td>
+                <td>{{healthInfo?.averagePeriodLength}}</td>
+            </tr>
+            <tr>
+                <td><strong>Typical cycle length:</strong></td>
+                <td>{{healthInfo?.typicalCycleLength}}</td>
+            </tr>
+            <tr>
+                <td><strong>Expected next period:</strong></td>
+                <td>{{formatExpectedNextPeriod(healthInfo)}}</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>Consent</h2>
+        <p>TODO</p>
+    </section>
+
+    <section>
+        <h2>Trial</h2>
+        <customer-trial [customerId]="customer.userId"></customer-trial>
+    </section>
+
+    <section>
+        <h2>Kits and sessions</h2>
+        <div *ngIf="trialSession != null">
+            <p>Session status: {{trialSession?.status}}</p>
+            <p>Compensated: {{trialSession?.compensated}}</p>
+        </div>
+        <div *ngIf="trialParticipant != null">
+            <p>Send kit's: <a class="action" (click)="sendKits()">Send kit's</a></p>
+            <p>Last kit send: {{trialParticipant?.sentKitsTime | date:'mediumDate'}}</p>
+        </div>
+        <div *ngIf="trialSession == null">
+            <p>No active sessions</p>
+        </div>
+    </section>
+</template>

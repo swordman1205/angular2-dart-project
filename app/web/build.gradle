@@ -1,0 +1,58 @@
+apply plugin: 'base'
+
+clean.doLast {
+    delete "build"
+}
+
+// build depends on assemble and adds test
+assemble.dependsOn.add("compileDart")
+assemble.dependsOn.add("getDependencies")
+build.dependsOn.add("runTest")
+
+task getDependencies() {
+    doLast {
+        print "running pub get"
+        exec {
+            if (System.properties['os.name'].toLowerCase().contains('windows')) {
+                commandLine 'pub.bat', 'get'
+            } else {
+                commandLine 'pub', 'get'
+            }
+        }
+
+    }
+}
+
+task compileDart() {
+    doLast {
+        if (file("build/public").exists()) {
+            print 'don`t compile to be fast, public exists'
+            return
+        }
+        print "compile dart web"
+        exec {
+            if (System.properties['os.name'].toLowerCase().contains('windows')) {
+                commandLine 'pub.bat', 'build', 'public'
+            } else {
+                commandLine 'pub', 'build', 'public'
+            }
+        }
+
+    }
+}
+
+task runTest() {
+    doLast {
+        print "running dart tests"
+        exec {
+            if (System.properties['os.name'].toLowerCase().contains('windows')) {
+                commandLine 'pub.bat', 'run', 'test'
+            } else {
+                commandLine 'pub', 'run', 'test'
+            }
+        }
+
+    }
+}
+
+

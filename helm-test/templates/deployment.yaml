@@ -1,0 +1,105 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gatewaydeployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gatewaycontainer
+        image: {{ .Values.image.repository }}/service_gateway:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: userdeployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      volumes:
+      - name: {{ .Values.volumes.gcloudKeyName }}
+        secret:
+          secretName: {{ .Values.volumes.gcloudKeySecretName }}
+      containers:
+      - name: usercontainer
+        image: {{ .Values.image.repository }}/service_user:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: {{ .Values.volumeMounts.name }}
+          mountPath: {{ .Values.volumeMounts.mountPath }}
+        env:
+        - name: {{ .Values.env.googleCredentials.name }}
+          value: {{ .Values.env.googleCredentials.value }}
+        - name: {{ .Values.env.springProfile.name }}
+          value: {{ .Values.env.springProfile.value }}
+        ports:
+        - containerPort: 8082
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: healthdeployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: health
+    spec:
+      volumes:
+      - name: {{ .Values.volumes.gcloudKeyName }}
+        secret:
+          secretName: {{ .Values.volumes.gcloudKeySecretName }}
+      containers:
+      - name: healthcontainer
+        image: {{ .Values.image.repository }}/service_health:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: {{ .Values.volumeMounts.name }}
+          mountPath: {{ .Values.volumeMounts.mountPath }}
+        env:
+        - name: {{ .Values.env.googleCredentials.name }}
+          value: {{ .Values.env.googleCredentials.value }}
+        - name: {{ .Values.env.springProfile.name }}
+          value: {{ .Values.env.springProfile.value }}
+        ports:
+        - containerPort: 8081
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: communicationdeployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: communication
+    spec:
+      volumes:
+      - name: {{ .Values.volumes.gcloudKeyName }}
+        secret:
+          secretName: {{ .Values.volumes.gcloudKeySecretName }}
+      containers:
+      - name: communicationcontainer
+        image: {{ .Values.image.repository }}/service_communication:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: {{ .Values.volumeMounts.name }}
+          mountPath: {{ .Values.volumeMounts.mountPath }}
+        env:
+        - name: {{ .Values.env.googleCredentials.name }}
+          value: {{ .Values.env.googleCredentials.value }}
+        - name: {{ .Values.env.springProfile.name }}
+          value: {{ .Values.env.springProfile.value }}

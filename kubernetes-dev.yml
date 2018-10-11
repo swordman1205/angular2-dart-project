@@ -1,0 +1,161 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: gateway
+  labels:
+    app: gateway
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 35.225.201.93
+  ports:
+  - port: 80
+    name: gateway
+    targetPort: 8080
+    nodePort: 32754
+  selector:
+    app: gateway
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gatewaydeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gatewaycontainer
+        image: gcr.io/qurasense-dev-1/service_gateway:v1
+        imagePullPolicy: Always
+        env:
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: user
+  labels:
+    app: user
+spec:
+  type: NodePort
+  ports:
+  - port: 8082
+    name: user
+    targetPort: 8082
+    nodePort: 32756
+  selector:
+    app: user
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: userdeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-key
+      containers:
+      - name: usercontainer
+        image: gcr.io/qurasense-dev-1/service_user:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPRING_PROFILES_ACTIVE
+          value: "cloud"
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: health
+  labels:
+    app: health
+spec:
+  type: NodePort
+  ports:
+  - port: 8081
+    name: health
+    targetPort: 8081
+    nodePort: 32755
+  selector:
+    app: health
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: healthdeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: health
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-key
+      containers:
+      - name: healthcontainer
+        image: gcr.io/qurasense-dev-1/service_health:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPRING_PROFILES_ACTIVE
+          value: "cloud"
+        ports:
+        - containerPort: 8081
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: communicationdeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: communication
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-key
+      containers:
+      - name: communicationcontainer
+        image: gcr.io/qurasense-dev-1/service_communication:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPRING_PROFILES_ACTIVE
+          value: "cloud"

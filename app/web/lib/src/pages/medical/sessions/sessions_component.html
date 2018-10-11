@@ -1,0 +1,17 @@
+<template [ngIf]="sessions != null">
+    <div class="main-header">Sessions</div>
+    <div class="Rtable Rtable--5cols">
+        <span class="Rtable-header Rtable-cell">Session ID</span>
+        <span class="Rtable-header Rtable-cell">Customer name</span>
+        <span class="Rtable-header Rtable-cell">Session status</span>
+        <span class="Rtable-header Rtable-cell">Number of samples in session</span>
+        <span class="Rtable-header Rtable-cell">Session started</span>
+        <template ngFor let-session [ngForOf]="sessions" let-i="index">
+            <span class="Rtable-cell" [routerLink]="['SessionDetail', {id: session.id}]" [rowHover]="i">{{session.id | shortId}}</span>
+            <span class="Rtable-cell" [routerLink]="['SessionDetail', {id: session.id}]" [rowHover]="i">{{customersMap[session.trialParticipantId]?.fullName}}</span>
+            <span class="Rtable-cell" [routerLink]="['SessionDetail', {id: session.id}]" [rowHover]="i">{{session.status | enum: 'sessionStatusType'}}</span>
+            <span class="Rtable-cell" [routerLink]="['SessionDetail', {id: session.id}]" [rowHover]="i">{{session.sampleIds.length}}</span>
+            <span class="Rtable-cell" [routerLink]="['SessionDetail', {id: session.id}]" [rowHover]="i">{{session.createTime | date:'y.MM.dd,HH:mm'}}</span>
+        </template>
+    </div>
+</template>

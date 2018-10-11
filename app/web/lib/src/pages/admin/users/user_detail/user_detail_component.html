@@ -1,0 +1,23 @@
+<template [ngIf]="user != null">
+    <h2>{{user.role}}</h2>
+    <div [ngSwitch]="user.role">
+        <div *ngSwitchCase="'ADMIN'">
+            <p>TODO admin page</p>
+        </div>
+
+        <account *ngSwitchCase="'CUSTOMER'" [user]="user"></account>
+        <!-- TODO in customer details, list the emails sent -->
+
+        <div *ngSwitchCase="'MEDICAL'">
+            <p>TODO medical page</p>
+        </div>
+
+        <div *ngSwitchCase="'NURSE'">
+            <p>TODO medical page</p>
+        </div>
+
+        <div  *ngSwitchDefault>
+            <p>Error unknown user role {{user.role}}</p>
+        </div>
+    </div>
+</template>

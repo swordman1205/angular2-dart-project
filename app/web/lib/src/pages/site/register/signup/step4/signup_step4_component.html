@@ -1,0 +1,332 @@
+<h2 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h2>
+<form [hidden]="!active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini [class.active]="isCurrentStep(step)" (click)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <div class="step-content-wrapper">
+        <section class="step-content" [class.active]="isCurrentStep('address')">
+            <form class="step-form" [ngFormModel]="addressForm">
+                <h3 class="step-subtitle">Address</h3>
+                <p class="step-paragraph">
+                  In order to send you our testing kit, we need to have your home address.
+                </p>
+                <!-- input box full name -->
+                <div class="form-input">
+                    <material-input label="Street, number, floor, flat"
+                                    autofocus
+                                    [(ngModel)]="userData.addressLine"
+                                    (ngModelChange)="resetSubmitted()"
+                                    ngControl="addressLine"
+                                    #addressLine="ngForm"
+                                    required>
+                    </material-input>
+                    <ul class="error-box" [hidden]="addressForm.valid || !submitted">
+                        <li [hidden]="!addressLine.control.hasError('required')" class="error">
+                            This field is required
+                        </li>
+                        <li [hidden]="!addressLine.control.hasError('tooShort')" class="error">
+                            Please input at least 2 letters/digits
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-input">
+                    <material-input label="City"
+                                    [(ngModel)]="userData.city"
+                                    (ngModelChange)="resetSubmitted()"
+                                    ngControl="city"
+                                    #city="ngForm"
+                                    required>
+                    </material-input>
+                    <ul class="error-box" [hidden]="addressForm.valid || !submitted">
+                        <li [hidden]="!city.control.hasError('required')" class="error">
+                            This field is required
+                        </li>
+                        <li [hidden]="!city.control.hasError('tooShort')" class="error">
+                            Please input at least 2 letters/digits
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-input">
+                    <material-input label="State"
+                                    [(ngModel)]="userData.state"
+                                    (ngModelChange)="resetSubmitted()"
+                                    #state="ngForm">
+                    </material-input>
+                    <!--<material-input label="State"-->
+                                    <!--[(ngModel)]="userData.state"-->
+                                    <!--ngControl="state"-->
+                                    <!--#state="ngForm">-->
+                    <!--<ul class="error-box" [hidden]="!state.control.hasError('tooShort') || state.pristine">-->
+                        <!--<li [hidden]="!state.control.hasError('tooShort') || state.pristine" class="error">-->
+                            <!--Please input at least 2 letters/digits-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                </div>
+                <div class="form-input">
+                    <material-input label="Zip"
+                                    [(ngModel)]="userData.zip"
+                                    (ngModelChange)="resetSubmitted()"
+                                    ngControl="zip"
+                                    #zip="ngForm"
+                                    required>
+                    </material-input>
+                    <ul class="error-box" [hidden]="addressForm.valid || !submitted">
+                        <li [hidden]="!zip.control.hasError('required')" class="error">
+                            This field is required
+                        </li>
+                        <li [hidden]="!zip.control.hasError('tooShort')" class="error">
+                            Please input at least 2 letters/digits
+                        </li>
+                    </ul>
+                </div>
+                <material-dropdown-select [buttonText]="userData.country.caption">
+                    <material-select-item *ngFor="let country of countryList"
+                                          (trigger)="userData.country = country"
+                                          [selected]="userData.country == country">
+                        {{country.caption}}
+                    </material-select-item>
+                </material-dropdown-select>
+                <div class="w-sm-100">
+                    <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                        back
+                    </material-button>
+                    <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                </div>
+            </form>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('email')">
+            <form class="step-form" [ngFormModel]="emailForm">
+                <h3 class="step-subtitle">E-mail Address</h3>
+                <p class="step-paragraph">
+                    We use your e-mail to identify you during login. During
+                    the trial, we will also send you reminders about your
+                    sample collection process.
+                </p>
+                <div class="form-input">
+                    <material-input label="E-mail"
+                                    [(ngModel)]="userData.email"
+                                    (ngModelChange)="resetSubmitted()"
+                                    ngControl="email"
+                                    #email="ngForm"
+                                    required>
+                    </material-input>
+                    <ul class="error-box" [hidden]="(emailForm.valid && !emailExists) || !submitted">
+                        <li [hidden]="!email.control.hasError('required')" class="error">
+                            This field is required
+                        </li>
+                        <li [hidden]="!email.control.hasError('badFormat')" class="error">
+                          Incorrect e-mail format
+                        </li>
+                        <li *ngIf="emailExists" class="error">
+                          Email already exists or invalid
+                        </li>
+                    </ul>
+                </div>
+            </form>
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+                <loader-button
+                    class="pull-right-sm"
+                    innerClass="btn-next btn btn-in btn-purple"
+                    (trigger)="jumpToNextStep()"
+                    [loading]="loading">
+                    <svg>
+                        <use class="arrow" xlink:href="#arrow-purple"></use>
+                    </svg>
+                </loader-button>
+            </div>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('phone')">
+            <form class="step-form" [ngFormModel]="phoneForm">
+                <h3 class="step-subtitle">Phone number</h3>
+                <p class="step-paragraph">Your phone number will be used to confirm your identity and to call you up to ask you a few questions about the trial.</p>
+                <!-- input, only numbers -->
+                <div class="form-input">
+                    <input class="input"
+                                    placeholder="123-456-7890"
+                                    type="tel"
+                                    [(ngModel)]="userData.phone"
+                                    (ngModelChange)="resetSubmitted()"
+                                    ngControl="phone"
+                                    #phone="ngForm"
+                                    required>
+                    <ul class="error-box" [hidden]="phoneForm.valid || !submitted">
+                        <li [hidden]="!phone.control.hasError('required')" class="error">
+                            This field is required
+                        </li>
+                        <li [hidden]="!phone.control.hasError('phoneLength')" class="error">
+                            Please input at least 8 digits
+                        </li>
+                        <li [hidden]="!phone.control.hasError('wrongSymbols')" class="error">
+                            Phone could contain only digits or "()+-" symbols
+                        </li>
+                    </ul>
+                </div>
+                <div class="w-sm-100">
+                    <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                        back
+                    </material-button>
+                    <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                </div>
+            </form>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('contact-hours')">
+            <h3 class="step-subtitle">When can we call you?</h3>
+            <p class="step-paragraph">We have pre-selected that we can call you at any time. Please adjust if this is not okay with you.</p>
+            <div class="choice-selector-wrapper">
+                <choice-selector class="choice-blocks can-call"
+                                 [options]="contactTimeOptions"
+                                 [(selected)]="contactTimeSelectedOptions"
+                                 [multiple]="true"
+                                 (select)="resetSubmitted()"></choice-selector>
+                <choice-selector class="choice-dots"
+                                 [options]="contactDaysOptions"
+                                 [(selected)]="contactDaysSelectedOptions"
+                                 [multiple]="false"
+                                 [dots]="true"
+                                 (select)="resetSubmitted()"></choice-selector>
+            </div>
+            <ul class="error-box" [hidden]="(!contactTimeSelectedOptions.isEmpty && !contactDaysSelectedOptions.isEmpty) || !submitted">
+                <li class="error">
+                    You should choose time.
+                </li>
+            </ul>
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+                <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                    <svg>
+                        <use class="arrow" xlink:href="#arrow-purple"></use>
+                    </svg>
+                </material-button>
+            </div>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('password')">
+            <h3 class="step-subtitle">Choose a password</h3>
+            <!-- TODO Add password validation -->
+            <password-set
+                #password
+                [(password)]="userData.password"
+                [showError]="submitted"
+                (passwordChange)="resetSubmitted()">
+            </password-set>
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+                <material-button class="btn-next btn btn-in btn-purple pull-right-sm"
+                                 (trigger)="jumpToNextStep()"
+                                 raised>
+                    <svg>
+                        <use class="arrow" xlink:href="#arrow-purple"></use>
+                    </svg>
+                </material-button>
+            </div>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('accept-terms')">
+            <h3 class="step-subtitle">Do you agree that:</h3>
+            <ul class="list purple red-dot">
+                <li>We can call you for a short interview to make sure you are eligible to participate in the trial?</li>
+                <li>You will read and sign the physical consent form we will send to you?</li>
+                <li>Use our Q-Pads accordingly to the instructions?</li>
+                <li>A nurse can take a blood draw from your arm?</li>
+                <li>You will read and agree to our <a href="javascript:void(0)" (click)="showPrivacy = true">Privacy Policy</a> and <a href="javascript:void(0)" (click)="showToC = true">Terms of Use?</a></li>
+            </ul>
+            <div class="toggle-agreement">
+                <span class="label-agree">
+                    I agree
+                </span>
+                <two-label-toggle
+                        [firstLabel]="'No'"
+                        [secondLabel]="'Yes'"
+                        [(selected)]="agreement"
+                        (selectedChange)="resetSubmitted()">
+                </two-label-toggle>
+            </div>
+            <ul class="error-box" [hidden]="agreementConfirmed || !submitted">
+                <li class="error">
+                    You should agree to terms and conditions before registration.
+                </li>
+            </ul>
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+                <!-- Confirm selection  -->
+                <loader-button
+                  innerClass="btn btn-in btn-purple pull-right-sm"
+                  (trigger)="jumpToNextStep()"
+                  [loading]="loading"
+                  title="Accept">
+                </loader-button>
+                <modal [visible]="showToC">
+                    <material-dialog class="large-dialog material-dialog--external purple">
+                        <div header>
+                            <h3 class="fs-18 text-center mt-20">QURASENSE CLINICAL TRIALS</h3>
+                            <h3 class="text-center">TERMS OF USE</h3>
+                        </div>
+                        <terms-of-use></terms-of-use>
+                        <div footer>
+                            <material-button clear-size
+                                             (trigger)="showToC = false"
+                                             class="white">
+                                Okay
+                            </material-button>
+                        </div>
+                    </material-dialog>
+                </modal>
+                <modal [visible]="showPrivacy">
+                    <material-dialog class="large-dialog material-dialog--external purple">
+                        <div header>
+                            <h3 class="fs-18 text-center mt-20">QURASENSE CLINICAL TRIALS</h3>
+                            <h3 class="text-center">PRIVACY POLICY</h3>
+                        </div>
+                        <privacy-policy></privacy-policy>
+                        <div footer>
+                            <material-button clear-size
+                                             (trigger)="showPrivacy = false"
+                                             class="white">
+                                Okay
+                            </material-button>
+                        </div>
+                    </material-dialog>
+                </modal>
+            </div>
+            <ul class="error-box" [hidden]="registrationErrorMessage == null">
+                <li [hidden]="registrationErrorMessage == null" class="error">
+                    {{registrationErrorMessage}}
+                </li>
+            </ul>
+        </section>
+    </div>
+    <material-button class="btn btn-out btn-purple btn-back active" (trigger)="navigateToPrevious()">
+        back
+    </material-button>
+</form>
+

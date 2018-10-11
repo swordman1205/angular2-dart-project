@@ -1,0 +1,108 @@
+@import '../../../../styles/shared';
+
+:host {
+    flex-direction: row;
+    height: 100vh;
+    align-items: center;
+    justify-items: center;
+    background-color: $purple;
+
+    .page-component {
+        /* self */
+        flex: 1;
+        justify-self: stretch;
+        align-self: stretch;
+        /* content */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        width: 50%;
+        &.questions {
+            background-color: #FDF9F3;
+            ::ng-deep .page-article {
+                padding: 0 25px;
+                align-items: flex-end;
+            }
+        }
+    }
+
+    ::ng-deep .page-article {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+        justify-self: stretch;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 0;
+        padding-left: 100px;
+        padding-right: 70px;
+        position: relative;
+        height: 100%;
+        @supports (-webkit-marquee-repetition:infinite) and (object-fit:fill) {
+            height: 70%;
+            flex: initial;
+        }
+        .page-article_subtitle {
+            font-size: 42px;
+            line-height: 42px;
+            text-transform: uppercase;
+            margin-bottom: 0;
+            color: #FFFFFF;
+        }
+        .page-article_text {
+            font-family: "omnes-pro", sans-serif;
+            font-size: 18px;
+            line-height: 23px;
+            color: #FFFFFF;
+        }
+        .trial-process {
+            .trial-process-title {
+                color: $white;
+                font-weight: 400;
+                letter-spacing: 1px;
+            }
+        }
+    }
+
+    .timeline-wrapper {
+        width: 100%;
+        margin-top: 50px;
+        img {
+            width: 100%;
+        }
+    }
+
+    @include mq(false, 1160) {
+        ::ng-deep .page-article {
+            padding: 0 55px;
+        }
+    }
+
+    @include mq(false, tablet) {
+        flex-direction: column;
+
+        .page-component {
+            width: 100%;
+            display: block;
+            flex: initial;
+            position: relative;
+            z-index: 2;
+            &.questions {
+                height: calc(100vh - 48px);
+                z-index: 1;
+                ::ng-deep .page-article {
+                    display: block;
+                    height: 100%;
+                }
+            }
+            ::ng-deep .page-article {
+                display: none;
+            }
+        }
+        ::ng-deep .page-article {
+            padding: 0 !important;
+        }
+    }
+}

@@ -1,0 +1,47 @@
+<template [ngIf]="customerDetails != null">
+    <header class="actions-header">
+        <h2 class="actions-area">Customers</h2>
+        <nav class="actions-nav">
+            <a class="download action" (click)="downloadCustomers()">Download customers</a>
+            <a class="download action" (click)="downloadCustomersAndHealths()">Export to zip</a>
+        </nav>
+    </header>
+
+    <div class="Rtable Rtable--6cols">
+        <span class="Rtable-header Rtable-cell">Customer name</span>
+        <span class="Rtable-header Rtable-cell">Singup date</span>
+        <span class="Rtable-header Rtable-cell">Assigned to trial</span>
+        <span class="Rtable-header Rtable-cell">Kits</span>
+        <span class="Rtable-header Rtable-cell">Expected next period</span>
+        <span class="Rtable-header Rtable-cell">Sessions</span>
+        <template ngFor let-customerDetail [ngForOf]="customerDetails" let-i="index">
+            <span class="Rtable-cell" [routerLink]="['CustomerDetail', {id: customerDetail.customer.userId.toString()}]" [rowHover]="i">
+                {{customerDetail.customer.fullName}}
+            </span>
+            <span class="Rtable-cell" [routerLink]="['CustomerDetail', {id: customerDetail.customer.userId.toString()}]" [rowHover]="i">
+                {{customerDetail.customer.createTime | date:'MM.dd.y'}}
+            </span>
+            <span class="Rtable-cell" [routerLink]="['CustomerDetail', {id: customerDetail.customer.userId.toString()}]" [rowHover]="i">
+                {{customerDetail.trial?.name}}
+            </span>
+            <span class="Rtable-cell" [routerLink]="['CustomerDetail', {id: customerDetail.customer.userId.toString()}]" [rowHover]="i">
+                {{customerDetail.participant?.hasKits == true ? 'Has kits' : ''}}
+                <span *ngIf="customerDetail.participant?.sentKitsTime!=null">
+                    ({{customerDetail.participant.sentKitsTime | date:'MM.dd.y'}})
+                </span>
+            </span>
+            <span class="Rtable-cell" [routerLink]="['CustomerDetail', {id: customerDetail.customer.userId.toString()}]" [rowHover]="i">
+                {{calculateNextPeriod(customerDetail.health) | date:'MM.dd.y'}}
+            </span>
+            <span class="Rtable-cell" [routerLink]="['CustomerDetail', {id: customerDetail.customer.userId.toString()}]" [rowHover]="i">
+                <div *ngIf="customerDetail.sessionCompleted != null">completed: {{customerDetail.sessionCompleted}}</div>
+                <div *ngIf="customerDetail.activeSession != null">last begin date: {{customerDetail.activeSession.createTime | date:'MM.dd.y'}}</div>
+            </span>
+        </template>
+    </div>
+
+    <modal [visible]="action != null" [ngSwitch]="action">
+        <material-dialog>
+        </material-dialog>
+    </modal>
+</template>

@@ -1,0 +1,35 @@
+:host {
+    @media screen and (min-width: 992px) {
+        box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+        height: calc(100% - 110px);
+    }
+}
+.card-list-headline {
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    align-self: stretch;
+    border-bottom: 0;
+    margin-bottom: 15px;
+    color: #5D2FCD;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+@media only screen and (min-width: 992px) {
+    .card-list-headline {
+        justify-content: flex-start;
+    }
+    .card-list {
+        align-self: center;
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 480px) {
+    .card-list-headline {
+        justify-content: center;
+    }
+    .card-list {
+        align-self: stretch;
+    }
+}

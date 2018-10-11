@@ -1,0 +1,339 @@
+@import "mixins";
+
+@media screen and (max-width: 1199px) {
+  .section {
+    &.section-empowering {
+      overflow: hidden;
+    }
+    &.section-q-pad {
+      padding: 70px 0;
+    }
+    .empowering {
+      .section-image {
+        width: 210%;
+        left: -7%;
+        top: -370px;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .monitoring {
+      .section-image {
+        width: 250px;
+        margin-left: 120px;
+        margin-top: 65px;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .q-pad {
+      .section-image {
+        width: 630px;
+        top: 80px;
+        left: -70px;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .clinical-trial {
+      .section-image {
+        margin-left: 25px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 991px) {
+  .title {
+    line-height: 30px;
+    font-size: 29px;
+    margin-bottom: 25px;
+  }
+  .section {
+    padding: 70px 0;
+    &.section-empowering {
+      padding-bottom: 250px;
+      padding-top: 100px;
+    }
+    .content {
+      padding-left: 0;
+    }
+    .empowering {
+      .title {
+        padding-left: 60px;
+      }
+      .section-image {
+        width: 740px;
+        top: -240px;
+        left: 0;
+      }
+      .content {
+        padding-left: 60px;
+        .content-text {
+          p:last-child {
+            position: absolute;
+            width: 300px;
+            left: -332px;
+            bottom: -160px;
+          }
+        }
+        .main-btn {
+          position: absolute;
+          left: -332px;
+          bottom: -220px;
+        }
+      }
+    }
+    .unique-biomarkers {
+      .section-image {
+        width: 180px;
+        left: 20px;
+        top: -120px;
+      }
+    }
+    .monitoring {
+      .section-image {
+        position: absolute;
+        bottom: 0;
+        margin: auto;
+        width: 210px;
+        right: -730px;
+        top: -150px;
+      }
+    }
+    .q-pad {
+      .subtitle,
+      .title {
+        padding-left: 175px;
+      }
+      .section-image {
+        position: absolute;
+        width: 680px;
+        margin: 0;
+        left: -90px;
+        top: -160px;
+      }
+      .content {
+        .block {
+          &:before {
+            width: 1px;
+            height: 230px;
+            left: auto;
+            right: auto;
+            top: 0;
+          }
+          &:after {
+            left: auto;
+            right: auto;
+          }
+          &.pad {
+            margin-bottom: 400px;
+            &:before {
+              left: -11px;
+            }
+            &:after {
+              left: -17px;
+              top: 230px;
+            }
+          }
+          &.strip {
+            text-align: right;
+            &:before {
+              right: -11px;
+              top: -220px;
+              height: 305px;
+            }
+            &:after {
+              right: -17px;
+              top: -230px;
+            }
+          }
+        }
+      }
+    }
+    .clinical-trial {
+      .title {
+        width: 200px;
+      }
+      .website-container {
+        .image-wrapper {
+          right: 25px;
+          top: -30px;
+          .section-image {
+            position: static;
+            margin: 0;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    .trial-process {
+      .timeline-title {
+        font-size: 33px;
+      }
+      .website-timeline {
+        width: 380px;
+        margin: auto;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .participate {
+      .title {
+        text-transform: none;
+        font-weight: 400;
+      }
+      .section-image {
+        position: static;
+        width: 140px;
+        margin: 0;
+        float: right;
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .who-faq {
+      .person {
+        flex-direction: column;
+        text-align: center;
+        .about {
+          margin-top: 40px;
+          padding: 0 30px;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  .section {
+    & > div {
+      max-width: 320px;
+      margin: auto;
+    }
+    &.section-empowering {
+      padding-bottom: 425px;
+    }
+    .empowering {
+      .title {
+        padding-left: 0;
+      }
+      .content {
+        padding-left: 0;
+        .content-text {
+          p:last-child {
+            right: 0;
+            left: 0;
+            margin: auto;
+            bottom: -330px;
+          }
+        }
+        .main-btn {
+          left: 0;
+          bottom: -400px;
+        }
+      }
+      .section-image {
+        left: 0;
+        top: 150px;
+        width: 510px;
+      }
+    }
+    .unique-biomarkers {
+      .section-image {
+        width: 110px;
+        top: -150px;
+        right: 0;
+        left: auto;
+        position: static;
+        display: inline-block;
+      }
+    }
+    .monitoring {
+      padding-bottom: 50px;
+      .section-image {
+        width: 170px;
+        right: -230px;
+        top: 200px;
+      }
+    }
+    .q-pad {
+      .title,
+      .subtitle {
+        padding-left: 0;
+      }
+      .content {
+        padding: 0 15px;
+        .block {
+          &.pad {
+            margin-bottom: 380px;
+          }
+        }
+      }
+      .section-image {
+        width: 470px;
+        left: -190px;
+        top: 205px;
+      }
+    }
+    .clinical-trial {
+      .title {
+        padding-left: 160px;
+        width: 290px;
+      }
+      .content {
+        margin-top: 35px;
+      }
+      .website-container {
+        .image-wrapper {
+          .section-image {
+            margin: 75px 0 0 40px;
+            width: 130px;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    .section-showreel {
+      .section-image-showreel + .section-image-showreel {
+        margin-left: 0;
+        margin-top: 15px;
+      }
+    }
+    .trial-process {
+      .timeline-title {
+        font-size: 33px;
+        text-align: left;
+      }
+      .website-timeline {
+        width: 260px;
+        margin: 0;
+      }
+    }
+    .participate {
+      .row {
+        flex-direction: row;
+        .section-image {
+          top: -150px;
+          right: 0;
+          left: 0;
+          position: absolute;
+        }
+      }
+    }
+    .faq {
+      .website-container {
+        .row {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+FOR /F %%A IN ('kubectl get nodes -l cloud.google.com/gke-nodepool^=default-pool -o^=name') DO kubectl cordon %%A

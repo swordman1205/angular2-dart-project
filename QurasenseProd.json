@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "qurasense-prod-1",
+  "private_key_id": "50f0ea542c4f6194f4e08941c7b91ffb6c7cda2c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHt429a2MLcFYp\n+Sb1XWtUY905ji7kkCQVY3JFl+7L4Sku9lla/GPZk9eQ2z6YOMCl2mRC+lCA7Pf2\nBD5a90ACArJgd7+EEQJQhASTnWJzUNFDcp+/HVcVR4gnseCKwc4Zp7j8dVBxiiEV\nIjcm7cXFNOUc7qx3+EvquqOS+xPpnTLkIR/qMlWuVmi/ihrSNCfxYXPtaAtUzPGI\n3Iucms0I0z5e2MhVAMnqVCBd5M1te4sabsdqsmhx84YQafSD37wp/ukzdMU9cSJA\n1leXD7yAc7qWiFY8Mcw0P8zZDsZjH6QrsBmJzXxdS2YpRzVP99vfY1mdIQ2joU8X\nTO0e7SmlAgMBAAECggEAANzx2KYRFSZboPc8LDjY6fapX7k6gMrJPka0YoAtp6V4\nPHLuzX42cRvohVvy6BXs/Fg2ekdVpUxqAQyqXAhrW8ACO8JYuAdQyeNJTqJJH9hO\noqF7iRplSN+dMPGUoOcqOA8p2bO7OegY+lvm/mYAggG8AuCjvXL7viWVDBhYGi9o\n+z9pkOOJ06gjY10MSEsA6GRjtOa+ZbLU4W3k/MotwkA0afTQO13QxDYU7G5QWjyI\nActwejjWykJckPZVc4gR7heJoTGKewLX5DmaWIBwn16eWE22w+sAT2TYJkc3gn4Q\nHsR6eVgTOaTUmnnqUfa7W6/aqIcgrgMo0KtHq7naMQKBgQDvm+WMBnfuxXgEl0/p\noAGWO1OjC+NjL9+f5AnXbPHc6uJv/d8/3d6VyHVwt5+g2G8X02dMaBhycIEGunEx\nG7CwIWDOTD6vCLKRt7YrUukfp6fUoHa4jTAAcTv7WPItNT8r2BqTXuu1fvknldEM\n4l3h1TX6iMAdgasjnRkuUii3LQKBgQDVYQ6dfumZB4EN5Zbnm08efhDTZPPj+8k4\nW1uXnG5E48zz8G0gvZh+39P5wjS2UX1ZF59Ze/Sp7IUvbz4OGelqihl7aZt9doBp\negXEONoeuuDyPAEGavkRMwZMECXUQrrrqeICSu0kazdbB7nge6Es3HeROV/IK2eC\nFbe7TthHWQKBgDoylWiTUaIPGH2U+vX1xSzmMARUKOC4igpd6v4GGiDcdC9bbFQo\n4Z1j2RKNpxn8N8+Dq31lczqolM47jq6s2ReOo+K3pioBZM373yVauADWSe9dIjjl\nIhmZZ0Y/bmMIodVWYe4Vig7FTmMNAn+so7zsenXlrTP9gMHfsHQNxJHpAoGAdMjL\nM/4LIhtOUenPnvGM6xZ6ZQjCx4u+BN9TkPYoEAJR4U08nQfH1+DvZqoZKZQOM93O\n9C34qavu9RhAcX1TGGF/MuGJHbDm9VO4pj2re9gyV8HpmbagnP49OxI3ciYXofX3\n4eNaSW14/ZSL8kYX37LGqjApsSe4XiU+ywCLNPkCgYEAwhTOdXbUn+brzJN3D3QN\ns7rRywOxMAMUu/ODhDZMmNfInSMkii0fODtip6YNRVH0rCGwExFkhwlwPuzME7Tz\npXHHkY9/FwVxWAq6pmYVzP0WUp8/4VnAk5W5V2wP8mBkWjq/Lp1bSySZkqiQdc83\nIYytlg3fgFrAwiFwpj7Zknw=\n-----END PRIVATE KEY-----\n",
+  "client_email": "datastore-account@qurasense-prod-1.iam.gserviceaccount.com",
+  "client_id": "107538165409027587312",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/datastore-account%40qurasense-prod-1.iam.gserviceaccount.com"
+}

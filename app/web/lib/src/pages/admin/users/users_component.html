@@ -1,0 +1,33 @@
+<template [ngIf]="users != null">
+    <header class="actions-header">
+        <h2 class="actions-area">Users</h2>
+        <nav class="actions-nav">
+            <a class="action" (click)="createUser()">create user</a>
+        </nav>
+    </header>
+
+    <div class="Rtable Rtable--5cols">
+        <span class="Rtable-header Rtable-cell">Email</span>
+        <span class="Rtable-header Rtable-cell">Created</span>
+        <span class="Rtable-header Rtable-cell">Last login</span>
+        <span class="Rtable-header Rtable-cell">Role</span>
+        <span class="Rtable-header Rtable-cell">Action</span>
+
+        <template ngFor let-user [ngForOf]="users" let-i="index">
+            <span class="Rtable-cell" [routerLink]="['../UserDetail', {id: user.id.toString()}]" [rowHover]="i">{{user.email}}</span>
+            <span class="Rtable-cell" [routerLink]="['../UserDetail', {id: user.id.toString()}]" [rowHover]="i">{{user.createTime | date:'medium'}}</span>
+            <span class="Rtable-cell" [routerLink]="['../UserDetail', {id: user.id.toString()}]" [rowHover]="i">{{user.lastLoginTime | date:'medium'}}</span>
+            <span class="Rtable-cell" [routerLink]="['../UserDetail', {id: user.id.toString()}]" [rowHover]="i">{{user.role}}</span>
+            <span class="Rtable-cell" [rowHover]="i">
+                <a class="action" (click)="deleteUser(user)"><glyph [icon]="'delete'"></glyph></a>
+            </span>
+        </template>
+    </div>
+
+    <modal [visible]="action != null" [ngSwitch]="action">
+        <material-dialog>
+            <create-user *ngSwitchCase="'CREATE'" (onAction)="onAction($event)"></create-user>
+            <delete-user *ngSwitchCase="'DELETE'" (onAction)="onAction($event)" [user]="userForDelete"></delete-user>
+        </material-dialog>
+    </modal>
+</template>

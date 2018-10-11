@@ -1,0 +1,4 @@
+<template [ngIf]="organization != null">
+    <h2>{{organization.name}}</h2>
+    <h2>{{organization.type| enum: 'organizationType'}}</h2>
+</template>

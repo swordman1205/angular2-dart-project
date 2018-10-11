@@ -1,0 +1,227 @@
+.title {
+  font-size: 54px;
+  line-height: 54px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+.q-pad .title {
+  margin-bottom: 0px;
+}
+
+.subtitle {
+  font-size: 20px;
+  line-height: 20px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.list {
+  list-style: none;
+  padding-left: 0;
+  &.red-dot {
+    li {
+      &:before {
+        background-color: $red;
+      }
+    }
+  }
+  &.purple-dot {
+    li {
+      &:before {
+        background-color: $purple;
+      }
+    }
+  }
+  li {
+    font-family: $omnes;
+    font-size: 18px;
+    line-height: 23px;
+    position: relative;
+    padding-left: 18px;
+    margin-bottom: 20px;
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: auto;
+      top: 8px;
+      bottom: auto;
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.section {
+  //padding: 130px 0;
+  padding: 100px 0;
+  overflow: hidden;
+  &.bg-white {
+    background-color: $white;
+  }
+  &.bg-beige {
+    background-color: $beige;
+  }
+  &.inset-shadow {
+    box-shadow: inset 0 9px 24px rgba(0, 0, 0, 0.12);
+  }
+  &.section-empowering {
+    overflow: visible;
+    .section-image {
+      width: 1285px;
+      img {
+        width: 85%;
+      }
+    }
+  }
+  &.section-q-pad {
+    padding: 100px 0 150px;
+  }
+  .content-title {
+    font-family: $omnes;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 18px;
+  }
+  .content-text {
+    font-family: $omnes;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 23px;
+    p {
+      font-family: $omnes;
+      font-weight: normal;
+      font-size: 18px;
+      line-height: 23px;
+      margin: 0 0 20px;
+    }
+  }
+  .empowering {
+    .section-image {
+      position: absolute;
+      top: -400px;
+      left: -13%;
+    }
+  }
+  .unique-biomarkers {
+    .section-image {
+      position: absolute;
+      width: 250px;
+      top: -180px;
+      left: 100px;
+      img {
+        width: 80%;
+      }
+    }
+  }
+  .q-pad {
+    .section-image {
+      position: relative;
+      top: 50px;
+      left: -65px;
+    }
+    .content {
+      margin-top: 45px;
+      .block {
+        position: relative;
+        &:before {
+          content: '';
+          position: absolute;
+          top: 15px;
+          left: -260px;
+          width: 230px;
+          height: 1px;
+          background-color: $red;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          top: 9px;
+          left: -272px;
+          width: 13px;
+          height: 13px;
+          border-radius: 100%;
+          background-color: $light-red;
+        }
+      }
+    }
+  }
+  .clinical-trial {
+    .section-image {
+      margin-top: 50px;
+    }
+  }
+  .trial-process {
+    .website-timeline {
+      img {
+        width: 100%;
+      }
+    }
+    .timeline-title {
+      font-weight: lighter;
+      font-size: 48px;
+      line-height: 48px;
+      text-transform: capitalize;
+    }
+  }
+  .participate {
+    .section-image {
+      margin-left: 120px;
+    }
+  }
+  .faq {
+    .left-faq {
+      padding-right: 8px;
+    }
+    .row {
+      align-items: stretch;
+    }
+    .faq-list {
+      font-family: $omnes;
+      font-size: 18px;
+      .red {
+        font-weight: bold;
+      }
+      .block {
+        margin-bottom: 25px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  .who-faq {
+    .person {
+      display: flex;
+      align-items: center;
+      .image {
+        width: 130px;
+        min-width: 130px;
+        height: 130px;
+        border-radius: 100%;
+        img {
+          width: 100%;
+          border-radius: 100%;
+        }
+      }
+      .about {
+        font-family: $omnes;
+        font-size: 18px;
+        line-height: 23px;
+        padding-left: 40px;
+        .name {
+          font-weight: bold;
+        }
+        .info {
+        }
+      }
+    }
+  }
+}

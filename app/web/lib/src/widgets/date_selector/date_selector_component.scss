@@ -1,0 +1,29 @@
+.selector_option {
+  cursor: pointer;
+  &.active {
+    background-color: transparent;
+  }
+}
+
+input {
+  border: 0;
+  padding-left: 25px;
+  height: 40px;
+  font-size: 14px;
+  color: #070707;
+  border-radius: 100px;
+  width: 100%;
+}
+
+::-webkit-input-placeholder {
+  color: #c9c9c9;
+}
+::-moz-placeholder {
+  color: #c9c9c9;
+}
+:-ms-input-placeholder {
+  color: #c9c9c9;
+}
+:-moz-placeholder {
+  color: #c9c9c9;
+}

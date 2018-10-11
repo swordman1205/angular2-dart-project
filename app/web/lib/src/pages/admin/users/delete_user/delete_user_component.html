@@ -1,0 +1,25 @@
+<material-dialog>
+    <h3 header>Are you sure you want to delete user?</h3>
+    <p>
+        User {{user?.fullName}}({{user?.email}}) will be deleted.
+    </p>
+    <div footer>
+        <material-button autofocus
+                         clear-size
+                         (trigger)="doAction()"
+                         class="white">
+            Delete
+        </material-button>
+        <material-button clear-size
+                         (trigger)="cancelAction()"
+                         class="white">
+            Cancel
+        </material-button>
+    </div>
+    <ul class="error-box" [hidden]="userDeleteErrorMessage == null">
+        <li [hidden]="userDeleteErrorMessage == null" class="error">
+            {{userDeleteErrorMessage}}
+        </li>
+    </ul>
+</material-dialog>
+

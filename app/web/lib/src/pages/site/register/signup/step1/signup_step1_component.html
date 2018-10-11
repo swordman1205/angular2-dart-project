@@ -1,0 +1,94 @@
+<h2 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h2>
+<form [hidden]="!active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini [class.active]="isCurrentStep(step)" (click)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <div class="step-content-wrapper">
+        <section class="step-content" [class.active]="isCurrentStep('menstruate')">
+            <h3 class="step-subtitle">Did you menstruate within the last 6 months? </h3>
+            <material-yes-no-buttons (yes)="isMenstruating = true" (no)="isMenstruating = false" raised></material-yes-no-buttons>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('fullname')">
+            <form class="step-form" [ngFormModel]="fullNameForm">
+                <h3 class="step-subtitle">What is your Full Name?</h3>
+                <div class="form-input">
+                    <material-input label="Enter name here"
+                                    [(ngModel)]="userData.fullName"
+                                    (ngModelChange)="resetSubmitted()"
+                                    autofocus
+                                    ngControl="fullName"
+                                    #fullName="ngForm"
+                                    required>
+                    </material-input>
+                    <ul class="error-box" [hidden]="fullName.valid || !submitted">
+                        <li [hidden]="!fullName.control.hasError('required')" class="error">Full name is required</li>
+                        <li [hidden]="!fullName.control.hasError('minTwoWords')" class="error">Please write your full name</li>
+                        <li [hidden]="!fullName.control.hasError('minTwoLetter')" class="error">Each word must contain at least two letters</li>
+                    </ul>
+                </div>
+                <div class="w-sm-100">
+                    <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                        back
+                    </material-button>
+                    <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                </div>
+            </form>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('birthdate')">
+            <form class="step-form" [ngFormModel]="birthDateForm">
+                <h3 class="step-subtitle">When is your birthday?</h3>
+                <p class="step-paragraph">You will have to be 18 years old to participate in this trial.</p>
+                <div class="form-input">
+                    <date-selector [(ngModel)]="userData.birthDate"
+                                   (ngModelChange)="resetSubmitted()"
+                                   [maxDate]="maxDate"
+                                   autofocus
+                                   ngControl="birthDate"
+                                   #birthDate="ngForm"
+                                   required></date-selector>
+                    <ul class="error-box" [hidden]="birthDate.valid || !submitted">
+                        <li [hidden]="!birthDate.control.hasError('required')" class="error">Birth date is required</li>
+                        <li [hidden]="!birthDate.control.hasError('tooYoung')" class="error">
+                            Sorry, you have to be 18 years or older to participate in this trial.
+                        </li>
+                        <li [hidden]="!birthDate.control.hasError('fromFuture')" class="error">
+                            Even if you were Marty McFly from Back to the Future, you still couldn't use this platform. Silly you...
+                        </li>
+                        <li [hidden]="!birthDate.control.hasError('invalid')" class="error">
+                            Invalid date.
+                        </li>
+                    </ul>
+                </div>
+                <div class="w-sm-100">
+                    <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                        back
+                    </material-button>
+                    <material-button class="btn-next btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <material-button class="btn btn-out btn-purple btn-back" [class.active]="!isCurrentStep('menstruate')" (trigger)="navigateToPrevious()">
+        back
+    </material-button>
+</form>

@@ -1,0 +1,41 @@
+<header class="page-header">
+  <div class="mobile-page" *ngIf="currentPage == 'home'">Qurasense</div>
+  <div class="mobile-page" *ngIf="currentPage == 'register'">Sign up</div>
+  <div class="mobile-page" *ngIf="currentPage == 'login'">Login to your trial page</div>
+  <nav class="page-header-nav">
+    <a [routerLink]="['/Site/Home']" [class.active]="currentPage == 'home'">Qurasense</a>
+    <a [routerLink]="['/Site/Register/Signup/Step', { order: 1, step: 1 }]" [class.active]="currentPage.startsWith('register')">Sign up</a>
+    <a [routerLink]="['/Site/Login']" [class.active]="currentPage == 'login'">Login to your trial page</a>
+  </nav>
+  <material-button
+      (trigger)="drawer.toggle()"
+      icon
+      class="material-drawer-button">
+    <svg>
+      <use class="menu" xlink:href="#menu"></use>
+    </svg>
+  </material-button>
+</header>
+<material-drawer
+    class="mobile-menu"
+    temporary #drawer="drawer">
+  <material-button
+      (trigger)="drawer.toggle()"
+      icon
+      class="close-btn">
+    <svg>
+      <use class="close" xlink:href="#close"></use>
+    </svg>
+  </material-button>
+  <material-list>
+    <material-list-item (trigger)="navigateTo(['/Site/Home'])">
+      <a class="link fs-16" href="javascript:void(0)">Qurasense</a>
+    </material-list-item>
+    <material-list-item (trigger)="navigateTo(['/Site/Register/Signup/Step', { order: 1, step: 1 }])">
+      <a class="link fs-16" href="javascript:void(0)">Sign up</a>
+    </material-list-item>
+    <material-list-item (trigger)="navigateTo(['/Site/Login'])">
+      <a class="link fs-16" href="javascript:void(0)">Login to your trial page</a>
+    </material-list-item>
+  </material-list>
+</material-drawer>

@@ -1,0 +1,189 @@
+<h2 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h2>
+<form [hidden]="!active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini [class.active]="isCurrentStep(step)" (trigger)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <div class="step-content-wrapper">
+        <section class="step-content" [class.active]="isCurrentStep('sexual-activity')">
+            <h3 class="step-subtitle">Sexual activity</h3>
+            <p class="step-paragraph">Please choose your relationship status.</p>
+            <choice-selector [options]="sexualActivityOptions"
+                             [(selected)]="userData.sexualActivity"
+                             [multiple]="false"
+                             (select)="navigateToNext()"></choice-selector>
+
+            <!--<material-button class="btn btn-in btn-purple" (trigger)="navigateToNext()" [disabled]="userData.sexualActivity.isEmpty" raised>
+                <svg>
+                    <use class="arrow" xlink:href="#arrow-purple"></use>
+                </svg>
+            </material-button>-->
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+            </div>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('birth-control')">
+            <h3 class="step-subtitle">Birth control</h3>
+            <p class="step-paragraph">Are you using any form of birth control, including pregnancy prevention or for health related reasons?</p>
+            <choice-selector class="birth-control"
+                             [options]="birthControlOptions"
+                             [(selected)]="userData.birthControl"
+                             [multiple]="true"
+                             [toggleChoice]="'None'"
+                             (select)="resetSubmitted()"></choice-selector>
+
+            <ul class="error-box" [hidden]="isBirthControlValidated || !submitted">
+              <li [hidden]="isBirthControlValidated" class="error">You should choose at least 1 method.</li>
+            </ul>
+
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+                <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                    <svg>
+                        <use class="arrow" xlink:href="#arrow-purple"></use>
+                    </svg>
+                </material-button>
+            </div>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('weight')">
+            <form class="step-form" [ngFormModel]="weightForm">
+                <h3 class="step-subtitle">Weight</h3>
+                <p class="step-paragraph">
+                    Use the toggle on the right to tell us if you are letting
+                    us know in pounds or in kilos
+                </p>
+                <div class="input-toggle">
+                    <div class="form-input">
+                        <input
+                                        class="input mt-0"
+                                        autofocus
+                                        type="tel"
+                                        placeholder="Input weight"
+                                        [(ngModel)]="userData.weight"
+                                        (ngModelChange)="resetSubmitted()"
+                                        ngControl="weight"
+                                        #weight="ngForm"
+                                        required>
+                        <ul class="error-box" [hidden]="weightForm.valid || !submitted">
+                            <li [hidden]="!weight.control.hasError('required')">
+                              This field is required
+                            </li>
+                            <li [hidden]="!weight.control.hasError('notNumber')" class="error">
+                                Only digits, please
+                            </li>
+                            <li [hidden]="!weight.control.hasError('unrealistic')" class="error">
+                                That number is unrealistic. If we are wrong, please write us an e-mail at research@qurasense.com
+                            </li>
+                        </ul>
+                    </div>
+                    <two-label-toggle [(checked)]="weightInPound"
+                                      [firstLabel]="'Lbs'"
+                                      [secondLabel]="'Kg'"
+                                      [(selected)]="userData.weightUnit"
+                                      (selectedChange)="forceValidateWeight()"></two-label-toggle>
+                </div>
+                <div class="w-sm-100">
+                    <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                        back
+                    </material-button>
+                    <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                </div>
+            </form>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('height')">
+            <form class="step-form" [ngFormModel]="heightForm">
+                <h3 class="step-subtitle">Height</h3>
+                <p class="step-paragraph">
+                    Use the toggle on the right to tell us if you are reporting your height in feet or cm.
+                </p>
+                <div class="input-toggle">
+                    <div class="form-input">
+                        <div class="heightCm" *ngIf="userData.heightUnit == 'Cm'">
+                            <input
+                                   class="input"
+                                   placeholder="Input height"
+                                   autoFocus
+                                   type="tel"
+                                   [(ngModel)]="userData.heightCm"
+                                   (ngModelChange)="resetSubmitted()"
+                                   ngControl="height"
+                                   #height="ngForm"
+                                   required>
+                            <ul class="error-box" [hidden]="heightForm.valid || !submitted">
+                                <li [hidden]="!height.control.hasError('required')" class="error">
+                                    This field is required
+                                </li>
+                                <li [hidden]="!height.control.hasError('notNumber')" class="error">
+                                    Only digits, please
+                                </li>
+                                <li [hidden]="!height.control.hasError('unrealistic')" class="error">
+                                    Sorry, you might be little, but no one is that tiny...
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="heightFeet" *ngIf="userData.heightUnit == 'Ft'">
+                            <material-dropdown-select [buttonText]="userData.heightFeet">
+                                <material-select-item *ngFor="let feet of feets"
+                                                      (trigger)="userData.heightFeet = feet"
+                                                      [selected]="userData.heightFeet == feet">
+                                    {{feet}}
+                                </material-select-item>
+                            </material-dropdown-select>
+                            <material-dropdown-select [buttonText]="userData.heightInch">
+                                <material-select-item *ngFor="let inch of inchs"
+                                                      (trigger)="userData.heightInch = inch"
+                                                      [selected]="userData.heightInch == inch">
+                                    {{inch}}
+                                </material-select-item>
+                            </material-dropdown-select>
+                        </div>
+                    </div>
+                    <two-label-toggle [firstLabel]="'Ft'"
+                                      [secondLabel]="'Cm'"
+                                      [(selected)]="userData.heightUnit"
+                                      (selectedChange)="forceValidateHeight()"></two-label-toggle>
+                </div>
+
+                <div class="w-sm-100">
+                    <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                        back
+                    </material-button>
+                    <material-button *ngIf="userData.heightUnit == 'Ft'" class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                    <material-button *ngIf="userData.heightUnit == 'Cm'" class="btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <material-button class="btn btn-out btn-purple btn-back active" (trigger)="navigateToPrevious()">
+        back
+    </material-button>
+</form>
+

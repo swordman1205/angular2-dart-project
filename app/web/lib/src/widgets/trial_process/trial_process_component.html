@@ -1,0 +1,73 @@
+<div class="timeline-view" [class.white]="theme == 'white'">
+  <div class="timeline-progress">
+    <div class="step-point" *ngFor="let i of [0, 1, 2, 3, 4, 5]"></div>
+  </div>
+  <div class="timeline-content">
+    <div class="step-inner">
+      <div class="step-inner-view">
+        <div class="icon" *ngIf="theme == ''">
+          <img src="/images/home/trial-process/signup.svg">
+        </div>
+        <div class="icon" *ngIf="theme == 'white'">
+          <img src="/static/timeline-sign.svg">
+        </div>
+        <p class="description">Sign up on the website</p>
+      </div>
+    </div>
+    <div class="step-inner">
+      <div class="step-inner-view">
+        <div class="icon" *ngIf="theme == ''">
+          <img src="/images/home/trial-process/phone.svg">
+        </div>
+        <div class="icon" *ngIf="theme == 'white'">
+          <img src="/static/timeline-phone.svg">
+        </div>
+        <p class="description">Telephone screening</p>
+      </div>
+    </div>
+    <div class="step-inner">
+      <div class="step-inner-view">
+        <div class="icon" *ngIf="theme == ''">
+          <img src="/images/home/trial-process/mailbox.svg">
+        </div>
+        <div class="icon" *ngIf="theme == 'white'">
+          <img src="/static/timeline-recieve.svg">
+        </div>
+        <p class="description">Receive product and kit</p>
+      </div>
+    </div>
+    <div class="step-inner">
+      <div class="step-inner-view">
+        <div class="icon" *ngIf="theme == ''">
+          <img src="/images/home/trial-process/pad.svg">
+        </div>
+        <div class="icon" *ngIf="theme == 'white'">
+          <img src="/static/timeline-kit.svg">
+        </div>
+        <p class="description">Use product and kit</p>
+      </div>
+    </div>
+    <div class="step-inner">
+      <div class="step-inner-view">
+        <div class="icon" *ngIf="theme == ''">
+          <img src="/images/home/trial-process/nursehat.svg">
+        </div>
+        <div class="icon" *ngIf="theme == 'white'">
+          <img src="/static/timeline-nurse.svg">
+        </div>
+        <p class="description">A nurse will come to you for a blood draw</p>
+      </div>
+    </div>
+    <div class="step-inner">
+      <div class="step-inner-view">
+        <div class="icon" *ngIf="theme == ''">
+          <img src="/images/home/trial-process/likebutton.svg">
+        </div>
+        <div class="icon" *ngIf="theme == 'white'">
+          <img src="/static/timeline-feedback.svg">
+        </div>
+        <p class="description">Provide us with feedback via the app</p>
+      </div>
+    </div>
+  </div>
+</div>

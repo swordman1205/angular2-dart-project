@@ -1,0 +1,233 @@
+<h2 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h2>
+<form [hidden]="!active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini class="step-progress-item {{ step }}" [class.active]="isCurrentStep(step)"  (click)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <section class="step-content" [class.active]="isCurrentStep('is-pad-saturated')">
+        <h3 class="step-subtitle">FINISHED COLLECTION?</h3>
+        <p class="step-paragraph">You should collect your sample until the pad is about 50% saturated. It’s important that the center of the pad is full.</p>
+        <div class="w-100">
+            <material-button class="btn btn-in btn-purple pull-left" (trigger)="navigateToNext()" raised>
+                It’s full
+            </material-button>
+            <material-button class="btn btn-in btn-purple pull-right" (trigger)="showLostPadModal = true" raised>
+                I lost it
+            </material-button>
+        </div>
+        <material-button class="btn-next btn btn-in btn-purple" (click)="navigateToPrevious()">
+            back
+        </material-button>
+        <modal [visible]="showLostPadModal">
+            <material-dialog class="basic-dialog material-dialog--external purple">
+                <h3 class="text-center" header>BUMMER!</h3>
+                <p>
+                    Thank you for trying - hopefully you still have an extra Q-pad? If not, please <a [routerLink]="['../Account']">contact us</a> . Also, please provide us with some detailed feedback about what happened - your information is incredibly important to us.
+                </p>
+                <div footer>
+                    <material-button autofocus
+                                     clear-size
+                                     (trigger)="toFeedback()"
+                                     class="white">
+                        Feedback
+                    </material-button>
+                    <material-button clear-size
+                                     (trigger)="showLostPadModal = false"
+                                     class="white">
+                        Cancel
+                    </material-button>
+                </div>
+            </material-dialog>
+        </modal>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('remove-take-picture')">
+        <div *ngIf="removePicture == null">
+            <h3 class="step-subtitle">REMOVE AND TAKE A PICTURE</h3>
+            <p class="step-paragraph">Remove the pad and take a picture of the pad on a white background. We know this is an odd request, but for the purpose of engineering, this picture is crucial. Thanks!</p>
+            <div class="actions">
+                <camera-button label="Take a picture!" (imageResult)="previewRemovePicture($event)"></camera-button>
+                <material-button class="btn btn-help" (click)="showRemovePictureQuestion = true">
+                    <span class="help"></span>
+                </material-button>
+            </div>
+        </div>
+        <div *ngIf="removePicture != null">
+            <div class="image-preview-content">
+                <img [src]="removePicture?.previewUrl"/>
+            </div>
+            <div class="camera-wrapper">
+                <p class="step-paragraph">Please check that the whole pad is visible and on a white background.</p>
+                <div class="actions">
+                    <camera-button label="Retake" (imageResult)="removePicture = $event"></camera-button>
+                    <busy-button
+                            innerClass="btn btn-in btn-purple"
+                            (trigger)="uploadRemovePicture()"
+                            [busy]="pullFuture">
+                        Confirm
+                    </busy-button>
+                </div>
+            </div>
+        </div>
+        <material-button class="btn-next btn btn-in btn-purple" (click)="navigateToPrevious()">
+            back
+        </material-button>
+
+        <modal [visible]="showRemovePictureQuestion">
+            <material-dialog class="basic-dialog material-dialog--external purple">
+                <h3 header>Why do we need this?</h3>
+                <p>
+                    Yes, we know this is an odd request, but for the purpose of engineering, this picture is crucial. Thanks!
+                </p>
+                <div footer>
+                    <material-button clear-size
+                                     (trigger)="showRemovePictureQuestion = false"
+                                     class="white w-146">
+                        Okay then...
+                    </material-button>
+                </div>
+            </material-dialog>
+        </modal>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('pull-sample-out-of-pad')">
+        <div *ngIf="pullPicture == null">
+            <h3 class="step-subtitle">PULL THE SAMPLE OUT OF THE Strip</h3>
+            <p class="step-paragraph">Please withdraw the strip from the pad and throw the pad away. When you have the stip in your hand, peel off the top transparent layer from the strip. If the sealing is a little tight, just pull hard. Throw this layer away, and take a picture of the remaining strip on a white background. The strip should be facing upwards so the blood is visible.</p>
+            <div class="actions">
+                <camera-button label="Take a picture!" (imageResult)="previewPullPicture($event)"></camera-button>
+                <material-button class="btn btn-help" (trigger)="showPullQuestion = true">
+                    <span class="help"></span>
+                </material-button>
+            </div>
+        </div>
+        <div *ngIf="pullPicture != null">
+            <div class="image-preview-content">
+                <img [src]="pullPicture?.previewUrl" style="max-height: 100%; max-width: 100%"/>
+            </div>
+            <div class="camera-wrapper">
+                <p class="step-paragraph">Please check that the whole strip is visible and on a white background.</p>
+                <div class="actions">
+                    <camera-button label="Retake" (imageResult)="pullPicture = $event"></camera-button>
+                    <busy-button
+                            innerClass="btn btn-in btn-purple"
+                            (trigger)="uploadPullPicture()"
+                            [busy]="pullFuture">
+                        Confirm
+                    </busy-button>
+                </div>
+            </div>
+        </div>
+        <material-button class="btn-next btn btn-in btn-purple" (click)="navigateToPrevious()">
+            back
+        </material-button>
+        <modal [visible]="showPullQuestion">
+            <material-dialog class="basic-dialog material-dialog--external purple">
+                <h3 header>How do I do this?</h3>
+                <p>
+                    On the pad, there is a small cut at the top of the pad where a little plastic slip is showing. Pull the slip to get the strip out.
+                </p>
+                <div class="pull-help-image">
+                    <img class="w-100 mt-15" src="images/sample/pull-strip.png"/>
+                    <img class="w-100 mt-15" src="images/sample/remove-peel-off.png"/>
+                </div>
+                <div footer>
+                    <material-button clear-size
+                                     (trigger)="showPullQuestion = false"
+                                     class="white">
+                        Okay, got it!
+                    </material-button>
+                </div>
+            </material-dialog>
+        </modal>
+    </section>
+
+    <!--src="images/sample/removePlasticLayer.png"-->
+    <section class="step-content" [class.active]="isCurrentStep('remove-plastic-layer')">
+        <h3 class="step-subtitle">PUT THE STRIP IN POUCH</h3>
+        <p class="step-paragraph">Place the strip in the black pouch that has the corresponding Kit ID labeled on the outside. The pouch came in the same bag as you received the pad in. Please make sure that you seal your pouch tightly!</p>
+        <!--<img class="step-image"  alt="removePlasticLayer.png">-->
+        <div class="w-100">
+            <material-button class="btn-next btn btn-in btn-purple pull-left" (click)="navigateToPrevious()">
+                back
+            </material-button>
+            <material-button class="btn btn-in btn-purple pull-right" (trigger)="navigateToNext()">
+                Done
+            </material-button>
+        </div>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('time-pad-remove')">
+        <h3 class="step-subtitle">WHEN DID YOU REMOVE THE PAD</h3>
+        <p class="step-paragraph">If you stopped right now, (or minutes ago) just press next. Otherwise adjust the time to when you removed the Q-pad.</p>
+        <date-selector class="mt-15"
+                       [(ngModel)]="sampleData.padRemoveTime"
+                       (ngModelChange)="submitted = false"
+                       autofocus
+                       required></date-selector>
+        <time-selector [label]="'AM/PM'" [value]="padRemoveTime" (valueChanged)="padRemoveTime = $event"></time-selector>
+        <ul class="error-box" [hidden]="(sampleData.padRemoveTime != null && sampleData.padRemoveTime.year != -1) || !submitted">
+            <li [hidden]="sampleData.padRemoveTime != null" class="error mb-0">
+                This field is required
+            </li>
+            <li *ngIf="sampleData.padRemoveTime != null" [hidden]="sampleData.padRemoveTime.year != -1" class="error mb-0">
+                Invalid date
+            </li>
+        </ul>
+        <div class="w-100">
+            <material-button class="btn-next btn btn-in btn-purple pull-left" (click)="navigateToPrevious()">
+                back
+            </material-button>
+            <material-button class="btn-next btn btn-in btn-purple pull-right" (trigger)="jumpToNextStep()">
+                <svg>
+                    <use class="arrow" xlink:href="#arrow-purple"></use>
+                </svg>
+            </material-button>
+        </div>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('how-much-bleed')">
+        <h3 class="step-subtitle">HOW MUCH DID YOU BLEED?</h3>
+        <p class="step-paragraph">Compared to your average flow during your periods, how will you describe your menstrual flow while using this Q-pad?</p>
+        <choice-selector class="custom-size"
+                         [options]="howMuchBleedOptions"
+                         [(selected)]="howMuchBleedSelectedOptions"
+                         [multiple]="false"
+                         (select)="showThankYouInfo = true"></choice-selector>
+        <material-button class="btn-next btn btn-in btn-purple" (click)="navigateToPrevious()">
+            back
+        </material-button>
+        <!--<material-button class="btn btn-in btn-purple" (click)="showThankYouInfo = true">-->
+            <!--<svg>-->
+                <!--<use class="arrow" xlink:href="#arrow-purple"></use>-->
+            <!--</svg>-->
+        <!--</material-button>-->
+        <modal [visible]="showThankYouInfo">
+            <material-dialog class="basic-dialog material-dialog--external purple">
+                <h3 header>Thank you!</h3>
+                <p>
+                    Finally, we would like to get some feedback from you. After completing these last step, you should register and start using the next pad in your kit.
+                </p>
+                <br>
+                <div footer>
+                    <material-button clear-size
+                                     (trigger)="showThankYouInfo = false"
+                                     (click)="confirm()"
+                                     class="white w-146">
+                        Got it
+                    </material-button>
+                </div>
+            </material-dialog>
+        </modal>
+    </section>
+
+</form>

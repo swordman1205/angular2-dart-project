@@ -1,0 +1,79 @@
+<h3 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h3>
+<form *ngIf="active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini [class.active]="isCurrentStep(step)" (click)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <section class="step-content" [class.active]="isCurrentStep('strips')">
+        <h3 class="step-subtitle">Select collected strip ids</h3>
+        <choice-selector [options]="stripIdOptions"
+                         [(selected)]="stripIdSelectedOptions"
+                         [multiple]="true">
+        </choice-selector>
+        <material-button class="btn-next btn btn-in btn-purple" (trigger)="navigateToNext()" [disabled]="stripIdSelectedOptions.isEmpty">
+            <svg>
+                <use class="arrow" xlink:href="#arrow-purple"></use>
+            </svg>
+        </material-button>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('tube')">
+        <form class="step-form" [ngFormModel]="tubeIdForm">
+            <h3 class="step-subtitle">Make bood draw and register tube id</h3>
+            <p class="step-paragraph">Input the Id written on the tube here before or after doint the blood draw.</p>
+            <input autofocus
+                   class="input"
+                   type="text"
+                   placeholder="Enter tube id here"
+                   [(ngModel)]="healthSession.tubeId"
+                   ngControl="tubeId"
+                   #tubeId="ngForm"
+                   required>
+            <ul class="error-box" [hidden]="tubeIdForm.valid || tubeIdForm.pristine">
+                <li [hidden]="!tubeId.control.hasError('invalidFormat') || tubeId.pristine" class="error">
+                    6 digits
+                </li>
+            </ul>
+            <material-button class="btn-next btn btn-in btn-purple" (trigger)="navigateToNext()" [disabled]="!tubeIdForm.valid">
+                <svg>
+                    <use class="arrow" xlink:href="#arrow-purple"></use>
+                </svg>
+            </material-button>
+        </form>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('compensation')">
+        <h3 class="step-subtitle">Compensation of $50</h3>
+        <p class="step-paragraph">Collect the strips packed in the envelopes and remember to pay the patient before leaving.</p>
+        <two-label-toggle
+                [firstLabel]="'not paid'"
+                [secondLabel]="'paid'"
+                [(selected)]="paidLabel">
+        </two-label-toggle>
+        <material-button class="btn-next btn btn-in btn-purple" (trigger)="navigateToNext()">
+            <svg>
+                <use class="arrow" xlink:href="#arrow-purple"></use>
+            </svg>
+        </material-button>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('feedback')">
+        <h3 class="step-subtitle">FEEDBACK OR COMMENTS</h3>
+        <material-input label="type your feedback here" multiline rows="9" [(ngModel)]="healthSession.feedback"></material-input>
+        <material-button class="btn btn-in btn-purple" (trigger)="navigateToNext()">
+            <svg>
+                <use class="arrow" xlink:href="#arrow-purple"></use>
+            </svg>
+        </material-button>
+    </section>
+
+</form>

@@ -1,0 +1,96 @@
+<h2 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h2>
+<form [hidden]="!active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini [class.active]="isCurrentStep(step)" (click)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <section class="step-content" [class.active]="isCurrentStep('primary-activities')">
+        <h3 class="step-subtitle">PRIMARY ACTIVITIES</h3>
+        <p class="step-paragraph">What was the primary activities (minimum of 15 minutes). Choose all that applies.</p>
+        <choice-selector [options]="primaryActivitiesOptions"
+                         [(selected)]="primaryActivitiesSelectedOptions"
+                         [multiple]="true"
+                         [componentId]="'primaryActivitiesMultipleSelector'"
+                         (select)="submitted = false"></choice-selector>
+        <ul class="error-box" [hidden]="primaryActivitiesSelectedOptions.isNotEmpty || !submitted">
+            <li class="error mb-0">
+                Please select at least one option.
+            </li>
+        </ul>
+        <div class="w-100">
+            <material-button class="btn-next btn btn-in btn-purple pull-left" (click)="navigateToPrevious()">
+                back
+            </material-button>
+            <material-button class="btn-next btn btn-in btn-purple pull-right" (trigger)="jumpToNextStep()">
+                <svg>
+                    <use class="arrow" xlink:href="#arrow-purple"></use>
+                </svg>
+            </material-button>
+        </div>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('knowing-saturated')">
+        <h3 class="step-subtitle">KNOWING WHEN THE PAD WAS SATURATED?</h3>
+        <p class="step-paragraph">How easy was it to know when the pad was saturated?</p>
+        <choice-selector [options]="knowSaturatedOptions"
+                         [(selected)]="knowSaturatedSelectedOptions"
+                         (select)="navigateToNext()"
+                         [componentId]="'padSaturationSingleSelector'"></choice-selector>
+        <material-button class="btn-next btn btn-in btn-purple" (click)="navigateToPrevious()">
+            back
+        </material-button>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('comfort')">
+        <h3 class="step-subtitle">COMFORT</h3>
+        <p class="step-paragraph">How comfortabel was the pad to wear?</p>
+        <choice-selector [options]="comfortLevelOptions"
+                         [(selected)]="comfortLevelSelectedOptions"
+                         (select)="navigateToNext()"
+                         [componentId]="'padComfortSingleSelector'"></choice-selector>
+        <material-button class="btn-next btn btn-in btn-purple" (click)="navigateToPrevious()">
+            back
+        </material-button>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('additional-feedback')">
+        <h3 class="step-subtitle">ADDITIONAL FEEDBACK</h3>
+        <material-input label="Any comments about your sample collection is appreciated. Did the strip e.g. annoy you? Did the pad overflow? Please let us know!" multiline rows="10" [(ngModel)]="sampleData.padFeedback"></material-input>
+        <div class="w-100">
+            <material-button class="btn-next btn btn-in btn-purple pull-left" (trigger)="navigateToPrevious()">
+                back
+            </material-button>
+            <material-button class="btn btn-in btn-purple pull-right" (mousedown)="showConfirmDialog($event)">
+                Done
+            </material-button>
+        </div>
+        <modal [visible]="showFeedbackModal">
+            <material-dialog class="basic-dialog material-dialog--external purple">
+                <h3 class="text-center" header>CONTINUE COLLECTING SAMPLES</h3>
+                <p>
+                    Thank you for a successful sample collection!
+                </p>
+                <p>
+                    It’s important that you continue to use your Q-pads until there is no kits left in your package. Our nurse will come and pick up the samples soon - depending on your menstrual flow, we expect it will be possible to use all 5 kits - which is crucial. Thank you!
+                </p>
+                <div footer>
+                    <material-button autofocus
+                                     clear-size
+                                     (trigger)="confirm()"
+                                     class="white w-146">
+                        I'll do that!
+                    </material-button>
+                </div>
+            </material-dialog>
+        </modal>
+    </section>
+</form>

@@ -1,0 +1,52 @@
+<div class="page-component">
+    <div class="page-article">
+        <h2 class="page-article_subtitle">Mobile<br>First</h2>
+        <p class="page-article_text">We recommend that you use it on your mobile device. You can go to the same url on your phone and login.</p>
+    </div>
+</div>
+
+<div class="page-component customer-page">
+    <!--<header class="page-header">-->
+    <!--<nav class="page-header-nav">-->
+    <!--<material-button class="btn btn-out btn-purple">Login</material-button>-->
+    <!--</nav>-->
+    <!--</header>-->
+    <div class="page-article">
+        <div class="mobile-view-wrapper">
+            <header class="page-header app-menu-header">
+                <div class="mobile-page">Your account</div>
+            </header>
+            <router-outlet></router-outlet>
+            <ul class="app-menu">
+                <li>
+                    <a [routerLink]="['./Home']">
+                        <svg class="icon">
+                            <use xlink:href="#icon-home"></use>
+                        </svg>
+                        <svg class="icon">
+                            <use xlink:href="#icon-home-solid"></use>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['./Sample/Step', { order: 1, step: 1 }]">
+                        <img class="icon" src="/static/icon-kit.svg">
+                        <svg class="icon">
+                            <use xlink:href="#icon-kit-solid"></use>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="['./Account']">
+                        <svg class="icon">
+                            <use xlink:href="#icon-user"></use>
+                        </svg>
+                        <svg class="icon">
+                            <use xlink:href="#icon-user-solid"></use>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,5 @@
+<!--current wizard: {{currentWizard}}-->
+<!--allowedWizard: {{allowedWizard}}-->
+<template [ngIf]="healthSession != null">
+    <pickup-step1 class="sample-step" #pickup1 [name]="wizardOf(0)" [steps]="stepsOf(0)" [active]="currentWizard == 0" (stateChange)="stateChange($event)" [(healthSession)]="healthSession"></pickup-step1>
+</template>

@@ -1,0 +1,7 @@
+cron:
+- description: "Daily Cloud Datastore Export"
+  url: /cloud-datastore-export?namespace_id=&output_url_prefix=gs://backup-qurasense-prod-1
+  #If there is default appengine application uncomment instead default
+  #target: cloud-datastore-admin
+  target: default
+  schedule: every 24 hours

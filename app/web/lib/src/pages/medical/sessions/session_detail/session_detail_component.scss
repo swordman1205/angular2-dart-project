@@ -1,0 +1,22 @@
+.Rtable {
+  &-header {
+    border-bottom: #e8e8e8 2px solid;
+    color: black;
+  }
+  &-cell {
+  }
+}
+
+.responsive-plain-table td {
+  cursor: pointer;
+}
+
+/** ===== MEDIA ====== */
+@media only screen and (min-width: 992px) {
+
+}
+@media only screen and (max-width: 480px) {
+  .download {
+    display: none;
+  }
+}

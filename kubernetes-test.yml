@@ -1,0 +1,234 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: qurasense-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: qurasense-test-ip
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app: gateway
+spec:
+  tls:
+    - secretName: qurasense-test-tls
+      hosts:
+      - test.qurasense.com
+  backend:
+    serviceName: gateway
+    servicePort: 8080
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-test
+spec:
+  acme:
+    server: https://acme-v01.api.letsencrypt.org/directory
+    email: zufar@qurasense.com
+    privateKeySecretRef:
+      name: letsencrypt-test
+    http01: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: gateway
+  labels:
+    app: gateway
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    name: gateway
+    targetPort: 8080
+    nodePort: 32754
+  selector:
+    app: gateway
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gatewaydeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gatewaycontainer
+        image: gcr.io/qurasense-test-1/service_gateway:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: user
+  labels:
+    app: user
+spec:
+  ports:
+  - port: 8082
+    name: user
+    targetPort: 8082
+  selector:
+    app: user
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: userdeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-key
+      containers:
+      - name: usercontainer
+        image: gcr.io/qurasense-test-1/service_user:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPRING_PROFILES_ACTIVE
+          value: "cloud, test"
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: health
+  labels:
+    app: health
+spec:
+  ports:
+  - port: 8081
+    name: health
+    targetPort: 8081
+  selector:
+    app: health
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: healthdeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: health
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-key
+      containers:
+      - name: healthcontainer
+        image: gcr.io/qurasense-test-1/service_health:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPRING_PROFILES_ACTIVE
+          value: "cloud, test"
+        ports:
+        - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: lab
+  labels:
+    app: lab
+spec:
+  ports:
+  - port: 8083
+    name: lab
+    targetPort: 8083
+  selector:
+    app: lab
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: labdeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lab
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-key
+      containers:
+      - name: labcontainer
+        image: gcr.io/qurasense-test-1/service_lab:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPRING_PROFILES_ACTIVE
+          value: "cloud, test"
+        ports:
+        - containerPort: 8083
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: communicationdeployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: communication
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: google-key
+      containers:
+      - name: communicationcontainer
+        image: gcr.io/qurasense-test-1/service_communication:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: SPRING_PROFILES_ACTIVE
+          value: "cloud, test"
+        - name: COMMUNICALTION_RESEARCH_ADDRESS
+          value: "dev@qurasense.com"

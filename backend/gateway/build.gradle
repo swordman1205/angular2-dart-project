@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath(libraries.springBootGradlePlugin)
+        classpath(libraries.gradleGit)
+    }
+}
+
+ext {
+    gitRevision = org.ajoberstar.grgit.Grgit.open().head().getAbbreviatedId()
+}
+
+apply from: '../build.gradle'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.qurasense'
+version = '1.0.0'
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources", "../../app/web/build/", ]
+        }
+    }
+}
+
+processResources {
+    //TODO: with enabled files matching idea don`t replace tokens, ufff, try to inject into idea plugin when will have free day
+    filesMatching('application.yml') {
+        filter { String line ->
+            line.replace("replace_buildhash", gitRevision)
+        }
+        filter { String line ->
+            line.replace("replace_buildtime", new Date().format('yyyy-MM-dd HH:mm:ss Z'))
+        }
+    }
+}
+
+dependencies {
+    compile (project(':common')) {
+        exclude group: 'com.google.cloud'
+    }
+    compile libraries.springCloudGateway
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+}

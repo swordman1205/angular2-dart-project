@@ -1,0 +1,25 @@
+<site-content>
+    <div class="page-article" menu-content *ngIf="updated != null && updated">
+        <div class="page-article-wrapper">
+            <h2 class="page-article_subtitle">Customer session updated.</h2>
+            <p class="page-article_text">Some text here possible</p>
+        </div>
+        <div class="timeline-wrapper">
+            <h2 class="timeline-title">
+                Next step:
+                <br>
+                visit customer
+            </h2>
+            <div class="w-100 trial-process">
+                <h4 class="trial-process-title">The trial process</h4>
+                <trial-process></trial-process>
+            </div>
+        </div>
+    </div>
+    <div class="page-article" menu-content *ngIf="updated != null && !updated">
+        <div class="page-article-wrapper">
+            <h2 class="page-article_subtitle">Unfortunately customer session not updated</h2>
+            <p class="page-article_text">We can`t find this token, contact us.</p>
+        </div>
+    </div>
+</site-content>

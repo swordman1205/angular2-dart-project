@@ -1,0 +1,113 @@
+import io.swagger.codegen.DefaultGenerator
+import io.swagger.codegen.config.CodegenConfigurator
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath libraries.swaggerGradlePlugin
+        classpath libraries.swaggerCodegenPlugin
+        classpath libraries.springBootGradlePlugin
+    }
+}
+
+apply from: '../build.gradle'
+apply plugin: 'com.benjaminsproule.swagger'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    //common
+    compile project(':common')
+
+    compile libraries.commonValidator
+
+    //java 8 time jackson
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    // spring
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile libraries.springSecurityOauth
+
+    compile libraries.poi
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile 'org.springframework.security:spring-security-test'
+    testCompile project(':common').sourceSets.test.output
+}
+
+def swaggerApiDirectory = "${project.buildDir}/swagger"
+def swaggerApiFileName = "swagger"
+swagger {
+    apiSource {
+        springmvc = true
+        locations = ['com.qurasense.userApi.controllers']
+        schemes = ['http', 'https']
+        host = 'www.example.com:8080'
+        basePath = '/users'
+        info {
+            title = 'User app'
+            version = 'v1'
+            description = 'User app description'
+            termsOfService = 'http://www.example.com/termsOfService'
+            contact {
+                email = 'email@email.com'
+                name = 'Name'
+                url = 'http://www.example.com'
+            }
+            license {
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.html'
+                name = 'Apache 2.0'
+            }
+        }
+        swaggerDirectory = swaggerApiDirectory
+        swaggerFileName = swaggerApiFileName
+//        securityDefinition {
+//            json = '/securityDefinition.json'
+//        }
+    }
+}
+
+
+def swaggerInput = swaggerApiDirectory + File.separator + swaggerApiFileName + ".json"
+def swaggerOutput = "${project.buildDir}/swagger/out"
+task generateApi(dependsOn: ['generateSwaggerDocumentation', 'clean']) {
+    inputs.file(swaggerInput)
+    outputs.dir(swaggerOutput)
+    doLast {
+        def config = new CodegenConfigurator()
+        config.setInputSpec(swaggerInput)
+        config.setOutputDir(swaggerOutput)
+        config.setLang('dart')
+//        config.setAdditionalProperties([
+//                'modelPackage'  : 'com.qurasense.userApi.model'
+//        ])
+        config.setSystemProperties([
+                'models': ''
+        ])
+        new DefaultGenerator().opts(config.toClientOptInput()).generate()
+
+        //remove unnesessery data
+        FileTree tree = fileTree(swaggerOutput) {
+            include '**/*.dart'
+        }
+        String regexEntity = "@Entity\\(.*\\)"
+        String regexProperty = "@Property\\(.*\\)"
+        tree.each { File propFile ->
+            println "Start replacing regex on $propFile.name"
+            String content = propFile.getText()
+            content = content.replaceAll(regexEntity, "")
+            content = content.replaceAll(regexProperty, "")
+            content = content.replaceAll("part of swagger.api;", "part of app_facade;")
+            propFile.setText(content);
+        }
+    }
+}
+
+clean.doFirst {
+    delete(swaggerApiDirectory)
+}
+

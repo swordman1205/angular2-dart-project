@@ -1,0 +1,4 @@
+<input type="number" [(ngModel)]="hours" min="1" max="12">
+<span class="time-divider">:</span>
+<input type="number" [(ngModel)]="minutes" min="0" max="59">
+<two-label-toggle [firstLabel]="'AM'" [secondLabel]="'PM'" [(selected)]="jm"></two-label-toggle>

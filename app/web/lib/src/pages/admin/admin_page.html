@@ -1,0 +1,20 @@
+<template [ngIf]="currentUser != null">
+    <header class="page-header">
+        <nav class="page-header-nav">
+            <a [routerLink]="['Assays']">Assays</a>
+            <!--a [routerLink]="['Communications']">Communications</a>
+            <a [routerLink]="['Inventory']">Inventory</a-->
+            <a [routerLink]="['Organizations']">Organizations</a>
+            <a [routerLink]="['Trials']">Trials</a>
+            <a [routerLink]="['Users']">Users</a>
+
+            <a [routerLink]="['UserDetail', {id: currentUser.id.toString()}]">Account</a>
+        </nav>
+    </header>
+    <div class="page-content">
+        <router-outlet></router-outlet>
+        <small class="AdminPage__version">{{version}}</small>
+    </div>
+</template>
+
+

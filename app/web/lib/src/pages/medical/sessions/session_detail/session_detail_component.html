@@ -1,0 +1,104 @@
+<div class="main-header">Session ID: {{session?.id | shortId}}</div>
+<div class="section">
+    <h2 class="section-header">Session details</h2>
+    <div class="section-body">
+        <div class="field">
+            <div class="text-label">Session status</div>
+            <div class="text-value">{{session?.status | enum: 'sessionStatusType'}}</div>
+        </div>
+        <div class="field">
+            <div class="text-label">Customer name</div>
+            <div class="text-value">{{customer?.fullName}}</div>
+        </div>
+        <div class="field">
+            <div class="text-label">Compensation</div>
+            <div class="text-value">{{session?.compensated}}</div>
+        </div>
+        <div class="field">
+            <div class="text-label">Nurse name</div>
+            <div class="text-value">{{nurse?.fullName}}</div>
+        </div>
+        <div class="field">
+            <div class="text-label">Nurse feedback</div>
+            <div class="text-value">{{session?.feedback}}</div>
+        </div>
+        <div class="field">
+            <div class="text-label">Laboratory name</div>
+            <div class="text-value"></div>
+        </div>
+        <div class="field">
+            <div class="text-label">Delivered at lab</div>
+            <div class="text-value"></div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <h2 class="section-header">Devices</h2>
+    <div class="section-body responsive-plain-table">
+        <table>
+            <tr>
+                <th>Kit-ID</th>
+                <th>Device type</th>
+                <th>Device owner</th>
+                <th>Sample status</th>
+                <th>In pad time</th>
+                <th>Collect time</th>
+                <th>Primary activities</th>
+                <th>Bleed intensity</th>
+                <th>Pad saturation</th>
+                <th>Pictures</th>
+                <th>Comfort level</th>
+                <th>Reported feedback</th>
+            </tr>
+            <tr *ngFor="let sample of samples; let isStriped=even;"
+                [class.is-striped]="isStriped"
+                [routerLink]="['SampleDetail', {id: sample.id}]">
+                <td>{{sample.kitId}}</td>
+                <td>{{isStrip(sample) ? 'Strip' : 'Tube'}}</td>
+                <td>{{isStrip(sample) ? 'CUSTOMER' : 'NURSE'}}</td>
+                <td><!-- sample.status --></td>
+                <td>
+                    <div *ngIf="isStrip(sample)">{{sample.createTime | date:'y.MM.dd,HH:mm'}}</div>
+                </td>
+                <td>
+                    <div *ngIf="isStrip(sample)">{{collectionTime(sample)}}</div>
+                </td>
+                <td>
+                    <div *ngIf="isStrip(sample)">
+                        <span *ngFor="let pAct of sample.primaryActivities; let isLast=last;">
+                            {{pAct | enum: 'primaryActivities'}}
+                            <span *ngIf="!isLast">, </span>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="isStrip(sample)">
+                        {{sample.bleedIntensity | enum: 'bleedIntensity'}}
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="isStrip(sample)">
+                    {{sample.padSaturation | enum: 'padSaturation'}}
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="isStrip(sample)">
+                        <div><a (click)="showPadPicture(sample);">Pad</a></div>
+                        <div><a (click)="showStripPicture(sample);">Strip</a></div>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="isStrip(sample)">
+                        {{sample.padComfort | enum: 'padComfort'}}
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="isStrip(sample)">
+                        {{sample.padFeedback}}
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+

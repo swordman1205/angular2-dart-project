@@ -1,0 +1,22 @@
+<div class="page-content">
+    <div *ngIf="pickedUpSampleCount != null && pickedUpSampleCount > 0" class="deliver-card">
+        <p>Delivery Samples: {{pickedUpSampleCount}}</p>
+        <p>Please confirm here once the are delivered</p>
+        <material-button (trigger)="deliver()">
+            Deliver now
+        </material-button>
+    </div>
+    <hr>
+    <template ngFor let-customerSamples [ngForOf]="samplesGroupedByCustomers" let-isStriped="even">
+        <div class="pickup-card">
+            <div class="full-name">{{customerSamples.customer.fullName}}</div>
+            <small class="patient-id">Patient id: {{customerSamples.customer.id}}</small>
+            <div class="phone">
+                <a [href]="'tel:' + customerSamples.customer.phone">{{customerSamples.customer.phone}}</a>
+            </div>
+            <material-button (trigger)="pickup(customerSamples)">
+                Pick up
+            </material-button>
+        </div>
+    </template>
+</div>

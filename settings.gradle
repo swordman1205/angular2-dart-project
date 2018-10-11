@@ -1,0 +1,6 @@
+rootProject.name='qurasense'
+
+includeBuild 'app'
+includeBuild 'backend'
+includeBuild 'testing'
+

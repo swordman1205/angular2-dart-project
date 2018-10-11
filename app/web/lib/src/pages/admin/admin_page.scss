@@ -1,0 +1,16 @@
+@import '../../../styles/shared';
+
+.page-header {
+  background-color: $blue;
+}
+
+.AdminPage__version {
+  background-color: rgba(0,0,0,0.25);
+  position: fixed;
+  width: 100%;
+  font-family: Verdana, Geneva, sans-serif;
+  color: $white;
+  bottom: 0px;
+  z-index: 1;
+  text-align: center;
+}

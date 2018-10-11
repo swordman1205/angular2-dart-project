@@ -1,0 +1,18 @@
+apply plugin: 'base'
+
+clean.doLast {
+    delete "build"
+}
+
+build {
+    doLast {
+        exec {
+            // TODO add iOS once code signing works
+            if (System.properties['os.name'].toLowerCase().contains('windows')) {
+                commandLine 'flutter.bat', 'build', 'flx'
+            } else {
+                commandLine 'flutter', 'build', 'flx'
+            }
+        }
+    }
+}

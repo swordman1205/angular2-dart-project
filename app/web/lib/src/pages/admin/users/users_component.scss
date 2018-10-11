@@ -1,0 +1,37 @@
+.Rtable {
+    &-header {
+        border-bottom: #e8e8e8 2px solid;
+        color: black;
+    }
+    &-cell {
+    }
+}
+
+.actions-header {
+    display: flex;
+    align-self: stretch;
+    align-items: center;
+    border-bottom: #e1e1e1 2px solid;
+    h2 { font-weight: normal; }
+}
+
+.actions-area {
+    display: flex;
+    flex: 1;
+}
+
+.actions-nav {
+    display: flex;
+    flex: 4;
+}
+
+
+/** ===== MEDIA ====== */
+@media only screen and (min-width: 992px) {
+
+}
+@media only screen and (max-width: 480px) {
+    .download {
+        display: none;
+    }
+}

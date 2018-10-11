@@ -1,0 +1,54 @@
+<form *ngIf="editableUser != null">
+    <span class="account-user-info">
+        <material-input label="Name"
+                        floatingLabel
+                        [(ngModel)]="editableUser.fullName"
+                        ngControl="fullName">
+        </material-input>
+        <material-input label="Email"
+                        floatingLabel
+                        [(ngModel)]="editableUser.email"
+                        ngControl="email">
+        </material-input>
+    </span>
+    <span *ngIf="info != null" class="account-customer-info">
+        <material-input label="Phone"
+                        floatingLabel
+                        [(ngModel)]="info.phone"
+                        ngControl="phone">
+        </material-input>
+        <div>
+            <date-selector [(ngModel)]="info.dateOfBirth"
+                           ngControl="dateOfBirth">
+            </date-selector>
+        </div>
+        <material-input label="Address"
+                        floatingLabel
+                        [(ngModel)]="info.addressLine"
+                        ngControl="address">
+        </material-input>
+        <material-input label="City"
+                        floatingLabel
+                        [(ngModel)]="info.city"
+                        ngControl="city">
+        </material-input>
+        <material-input label="State"
+                        floatingLabel
+                        [(ngModel)]="info.state"
+                        ngControl="state">
+        </material-input>
+        <material-input label="Zip"
+                        floatingLabel
+                        [(ngModel)]="info.zip"
+                        ngControl="zip">
+        </material-input>
+        <material-input label="Country"
+                        floatingLabel
+                        [(ngModel)]="info.country"
+                        ngControl="country">
+        </material-input>
+    </span>
+    <div *ngIf="actionable" class="account-actions">
+        <material-button class="btn btn-out btn-purple" (trigger)="done()">Done</material-button>
+    </div>
+</form>

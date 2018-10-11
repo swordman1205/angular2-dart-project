@@ -1,0 +1,39 @@
+<form #userForm="ngForm">
+    <material-input label="Email?"
+                    floatingLabel style="width:80%"
+                    [(ngModel)]="user.email"
+                    required>
+    </material-input>
+    <p class="error" *ngIf="showEmailExists">Email already exists</p>
+    <password-set [(password)]="password"></password-set>
+    <material-input label="Full name?"
+                    floatingLabel style="width:80%"
+                    [(ngModel)]="user.fullName"
+                    required>
+    </material-input>
+    <div>
+        <material-dropdown-select
+                [buttonText]="userRoleSelectedLabel"
+                [selection]="userRoleSelection"
+                [options]="userRoleOptions"
+                [popupMatchInputWidth]="true"
+                [itemRenderer]="itemRenderer"
+                required>
+        </material-dropdown-select>
+        <p class="error" *ngIf="showRoleRequired">Role is required</p>
+    </div>
+    <div class="actions">
+        <material-button autoFocus
+                         clear-size
+                         (trigger)="doAction()"
+                         [disabled]="!userForm.valid"
+                         class="white">
+            Submit
+        </material-button>
+        <material-button clear-size
+                         (trigger)="cancelAction()"
+                         class="white">
+            Cancel
+        </material-button>
+    </div>
+</form>

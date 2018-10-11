@@ -1,0 +1,16 @@
+# Mac
+.DS_Store
+
+# Sensitive or high-churn files:
+.idea/uiDesigner.xml
+
+# Modules handled by IDEA 
+.idea
+
+# Gradle:
+.gradle
+build/
+out/
+
+# tmp
+user_mobile/android/app/src/main/java/io/

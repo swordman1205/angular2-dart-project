@@ -1,0 +1,53 @@
+<svg width="10" height="13" viewBox="0 0 10 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>?</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(11232 -3680)">
+<rect x="-11232" y="3680" width="10" height="13" fill="#E5E5E5"/>
+<clipPath id="clip-0" clip-rule="evenodd">
+<path d="M -11526 3183L -11151 3183L -11151 3850L -11526 3850L -11526 3183Z" fill="#FFFFFF"/>
+</clipPath>
+<g id="iPhone 8.16" clip-path="url(#clip-0)">
+<path d="M -11526 3183L -11151 3183L -11151 3850L -11526 3850L -11526 3183Z" fill="#FD5755"/>
+<g id="Rectangle 13.2" filter="url(#filter0_d)">
+<use xlink:href="#path0_fill" transform="translate(-11526 3269)" fill="#FDF9F3"/>
+</g>
+<g id="Questionmark">
+<g id="Rectangle 14.2" filter="url(#filter1_d)">
+<mask id="mask0_outline_ins">
+<use xlink:href="#path1_fill" fill="white" transform="translate(-11244 3669)"/>
+</mask>
+<g mask="url(#mask0_outline_ins)">
+<use xlink:href="#path2_stroke_2x" transform="translate(-11244 3669)" fill="#5D2FCD"/>
+</g>
+</g>
+<g id="?">
+<use xlink:href="#path3_fill" transform="translate(-11232 3675)" fill="#5D2FCD"/>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<filter id="filter0_d" filterUnits="userSpaceOnUse" x="-11530" y="3264" width="383" height="485" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+<feOffset dx="0" dy="-1"/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter1_d" filterUnits="userSpaceOnUse" x="-11247" y="3668" width="41" height="40" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 0"/>
+<feOffset dx="0" dy="2"/>
+<feGaussianBlur stdDeviation="1.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<path id="path0_fill" d="M 0 0L 375 0L 375 477L 0 477L 0 0Z"/>
+<path id="path1_fill" d="M 0 17C 0 7.61116 7.61116 0 17 0L 18 0C 27.3888 0 35 7.61116 35 17C 35 26.3888 27.3888 34 18 34L 17 34C 7.61116 34 0 26.3888 0 17Z"/>
+<path id="path2_stroke_2x" d="M 17 1L 18 1L 18 -1L 17 -1L 17 1ZM 18 33L 17 33L 17 35L 18 35L 18 33ZM 17 33C 8.16344 33 1 25.8366 1 17L -1 17C -1 26.9411 7.05887 35 17 35L 17 33ZM 34 17C 34 25.8366 26.8366 33 18 33L 18 35C 27.9411 35 36 26.9411 36 17L 34 17ZM 18 1C 26.8366 1 34 8.16344 34 17L 36 17C 36 7.05887 27.9411 -1 18 -1L 18 1ZM 17 -1C 7.05887 -1 -1 7.05887 -1 17L 1 17C 1 8.16344 8.16344 1 17 1L 17 -1Z"/>
+<path id="path3_fill" d="M 3.582 18L 6.57 18L 6.57 15.156L 3.582 15.156L 3.582 18ZM 3.492 9.414C 3.348 7.29 4.914 7.254 5.256 7.254C 6.336 7.254 6.93 7.776 6.93 8.64C 6.93 9.828 5.832 10.332 5.148 10.872C 4.572 11.358 3.942 12.024 3.942 13.464L 3.942 13.95L 6.21 13.95C 6.12 12.672 6.876 12.222 7.722 11.682C 8.586 11.106 9.756 10.296 9.756 8.496C 9.756 6.246 7.956 5.184 5.292 5.184C 3.456 5.184 0.63 5.688 0.72 9.414L 3.492 9.414Z"/>
+</defs>
+</svg>

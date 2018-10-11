@@ -1,0 +1,9 @@
+<div class="lostpad-container">
+    <h3 class="step-subtitle">What went wrong?</h3>
+    <material-input label="Please provide as detailed feedback as possible" multiline rows="9" [(ngModel)]="sampleData.padFeedback"></material-input>
+    <div class="w-100 pt-md-10">
+        <material-button class="btn btn-in btn-purple" (trigger)="submitFeedback()">
+            Done
+        </material-button>
+    </div>
+</div>

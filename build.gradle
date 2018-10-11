@@ -1,0 +1,8 @@
+task wrapper(type: Wrapper) {
+    jarFile = file('.wrapper/wrapper.jar')
+    gradleVersion = '4.5.1'
+}
+
+task clean {
+    dependsOn gradle.includedBuilds*.task(':clean')
+}

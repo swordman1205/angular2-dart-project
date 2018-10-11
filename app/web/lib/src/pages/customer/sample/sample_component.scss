@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #f2f2f2;
+}
+.wizard-component {
+  display: block;
+  .step-content {
+    .step-subtitle {
+      font-size: 20px;
+      line-height: 22px;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<site-content>
+    <div class="page-article" menu-content *ngIf="confirmed != null && confirmed">
+        <div class="page-article-wrapper">
+            <h2 class="page-article_subtitle">Your e-mail is now confirmed!</h2>
+            <p class="page-article_text">We will contact you as soon as possible so we can continue and send you a collection kit.</p>
+            <p class="page-article_text">When you start using the product, please <a [routerLink]="['/Site/Login']" class="page-article_text text-center-sm pr-sm-0">log</a> again using your smartphone.</p>
+        </div>
+        <div class="timeline-wrapper">
+            <h2 class="timeline-title">
+                Next step:
+                <br>
+                phone screening
+            </h2>
+            <div class="w-100 trial-process">
+                <h4 class="trial-process-title">The trial process</h4>
+                <trial-process></trial-process>
+            </div>
+        </div>
+    </div>
+    <div class="page-article" menu-content *ngIf="confirmed != null && !confirmed">
+        <div class="page-article-wrapper">
+            <h2 class="page-article_subtitle">Unfortunately your email not confirmed!</h2>
+            <p class="page-article_text">We can`t find this token, if this repeated - singup again or contact us.</p>
+        </div>
+    </div>
+</site-content>

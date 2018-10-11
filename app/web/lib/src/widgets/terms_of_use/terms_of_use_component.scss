@@ -1,0 +1,16 @@
+.list li {
+  font-size: 18px;
+  font-family: "omnes-pro", sans-serif;
+  line-height: 23px;
+  padding-left: 40px;
+  margin: 15px 0;
+
+  span {
+    font-size: 17px;
+    &.number {
+      position: absolute;
+      left: 0;
+      top: 1px;
+    }
+  }
+}

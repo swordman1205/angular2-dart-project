@@ -1,0 +1,40 @@
+@import '../../../styles/shared';
+
+@include keyframes('rotate') {
+  @include rotate;
+}
+
+material-button {
+  &:not([disabled]) {
+    position: relative;
+    &:before {
+      content: '';
+      position: absolute;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 14px;
+      height: 14px;
+      border: 2px solid;
+      border-left-color: transparent;
+      border-radius: 50%;
+      opacity: 0;
+      @include crossBrowser('animation-duration', '1s');
+      @include crossBrowser('animation-iteration-count', 'infinite');
+      @include crossBrowser('animation-name', 'rotate');
+      @include crossBrowser('animation-timing-function', 'linear');
+    }
+    &.loading{
+      pointer-events: none;
+      cursor: not-allowed;
+      &:not(.expand) {
+        text-align: left;
+      }
+      &:before {
+        opacity: 1;
+      }
+    }
+  }
+}

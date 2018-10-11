@@ -1,0 +1,13 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+#If there is default appengine application uncomment instead default
+service: cloud-datastore-users-wipe
+
+libraries:
+- name: webapp2
+  version: "latest"
+
+handlers:
+- url: /cloud-datastore-users-wipe
+  script: cloud_datastore_wipe_users.app

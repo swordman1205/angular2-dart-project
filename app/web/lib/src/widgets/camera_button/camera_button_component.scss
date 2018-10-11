@@ -1,0 +1,22 @@
+label {
+  &.cameraButton {
+    display: inline-block;
+    margin: 0;
+    font-size: 18px;
+    padding: 4px 11px;
+    background-color: #5D2FCD;
+    color: #fff;
+    border: 1px solid #5D2FCD;
+    border-radius: 100px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25) !important;
+    /* This is the part that actually hides the 'Choose file' text box for camera inputs */
+    input[accept*="camera"] {
+      display: none;
+    }
+  }
+}
+
+form {
+  padding: 0;
+  width: 100%;
+}

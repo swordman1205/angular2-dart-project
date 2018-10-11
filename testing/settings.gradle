@@ -1,0 +1,5 @@
+include 'chrome_headless'
+include 'cloud_mock'
+include 'service_tests'
+include 'website_tests'
+include 'gui_tests'

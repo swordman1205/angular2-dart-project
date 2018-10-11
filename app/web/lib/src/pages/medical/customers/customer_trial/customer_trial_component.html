@@ -1,0 +1,39 @@
+<p>Trial status: {{trialParticipant == null ? 'Not Assigned to trial' : trialParticipant.status}}</p>
+<div *ngIf="trialParticipant == null">
+    <material-select width="2" class="bordered-list">
+        <form #approveCustomerForm="ngForm">
+            <material-dropdown-select [buttonText]="trial?.name ?? 'Select trial'" required>
+                <material-select-item *ngFor="let t of trials"
+                                      (trigger)="trial = t"
+                                      [selected]="trial?.id == t.id">
+                    {{t.name}}
+                </material-select-item>
+            </material-dropdown-select>
+            <material-dropdown-select [buttonText]="nurse?.fullName ?? 'Select nurse'" required>
+                <material-select-item *ngFor="let n of nurses"
+                                      (trigger)="nurse = n"
+                                      [selected]="nurse?.id == n.id">
+                    {{n.fullName}}
+                </material-select-item>
+            </material-dropdown-select>
+            <material-button autoFocus
+                             clear-size
+                             (trigger)="approveCustomer()"
+                             [disabled]="trial == null || nurse == null"
+                             class="white">
+                Approve
+            </material-button>
+            <material-button autoFocus
+                             clear-size
+                             (trigger)="rejectCustomer()"
+                             [disabled]="trial == null"
+                             class="white">
+                Reject
+            </material-button>
+        </form>
+    </material-select>
+</div>
+<div *ngIf="trialParticipant != null && trialParticipant.status == 'APPROVED'">
+    <p>Trial: {{trial.name}}</p>
+    <p>Nurse: {{nurse.fullName}}</p>
+</div>

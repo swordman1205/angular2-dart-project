@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+        <errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler"/>
+        <param name="Threshold" value="INFO"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{HH:mm:ss,SSS} | %-5p | %C{1}.%M[%L] %x | %m %n"/>
+        </layout>
+    </appender>
+
+    <appender name="LogAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler"/>
+
+        <param name="Threshold" value="INFO"/>
+
+        <param name="File" value="${catalina.base}/logs/routing.log"/>
+
+        <param name="Append" value="true"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} | %-5p | %C{1}.%M[%L] %x | %m%n"/>
+        </layout>
+    </appender>
+
+    <root>
+        <appender-ref ref="LogAppender"/>
+        <appender-ref ref="Console"/>
+    </root>
+
+</log4j:configuration>

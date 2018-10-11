@@ -1,0 +1,82 @@
+<div class="main-header">KIT-ID: {{sample?.kitId}}</div>
+<div class="section">
+    <h2 class="section-header">Device details</h2>
+    <div class="section-body">
+        <div class="field">
+            <div class="text-label">Device type</div>
+            <div class="text-value">{{isStrip(sample) ? 'Strip' : 'Tube'}}</div>
+        </div>
+        <div class="field">
+            <div class="text-label">Device location</div>
+            <div class="text-value"></div>
+        </div>
+        <div class="field">
+            <div class="text-label">Laboratory partner</div>
+            <div class="text-value"></div>
+        </div>
+        <div class="field">
+            <div class="text-label">Collection</div>
+            <div class="text-value"></div>
+        </div>
+        <div class="field">
+            <div class="text-label">Time from collection to analysis</div>
+            <div class="text-value"></div>
+        </div>
+    </div>
+</div>
+<div class="section" *ngIf="isStrip(sample)">
+    <h2 class="section-header">Sample details</h2>
+    <div class="section-body">
+        <div class="field">
+            <div class="text-label">Plasma volume</div>
+            <div class="text-value"></div>
+        </div>
+        <div class="field">
+            <div class="text-label">Whole blood volume</div>
+            <div class="text-value"></div>
+        </div>
+        <div class="field">
+            <div class="text-label">Use-age time</div>
+            <div class="text-value">{{sample.padStartTime | date:'y.MM.dd,HH:mm'}} - {{sample?.padRemoveTime | date:'y.MM.dd,HH:mm'}}</div>
+        </div>
+        <div class="field">
+            <div class="text-label">Time from collection to analysis</div>
+            <div class="text-value"></div>
+        </div>
+        <div class="field">
+            <div class="text-label">Lab turn around time</div>
+            <div class="text-value"></div>
+        </div>
+    </div>
+</div>
+<div class="section" *ngIf="isStrip(sample)">
+    <h2 class="section-header">Photos</h2>
+    <div class="section-body">
+        <div class="field">
+            <div class="text-label">Remove photo</div>
+            <img class="sample-image" [src]="createRemoveUrl()"/>
+
+        </div>
+        <div class="field">
+            <div class="text-label">Pull photo</div>
+            <img class="sample-image" [src]="createPullUrl()"/>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <h2 class="section-header">Sample results</h2>
+    <div class="Rtable Rtable--5cols">
+        <span class="Rtable-header Rtable-cell">Assay name</span>
+        <span class="Rtable-header Rtable-cell">Result</span>
+        <span class="Rtable-header Rtable-cell">Unit</span>
+        <span class="Rtable-header Rtable-cell">Range min</span>
+        <span class="Rtable-header Rtable-cell">Range max</span>
+        <template ngFor let-assay [ngForOf]="assays" let-i="index">
+            <span class="Rtable-cell" [rowHover]="i">{{assay.name}}</span>
+            <span class="Rtable-cell" [rowHover]="i">{{assay.result}}</span>
+            <span class="Rtable-cell" [rowHover]="i">{{assay.unit}}</span>
+            <span class="Rtable-cell" [rowHover]="i">{{assay.rangeMin}}</span>
+            <span class="Rtable-cell" [rowHover]="i">{{assay.rangeMax}}</span>
+        </template>
+    </div>
+</div>

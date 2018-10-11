@@ -1,0 +1,96 @@
+// Header
+header,
+.header {
+  position: relative;
+  z-index: 100;
+  .navbar {
+    background: transparent;
+    border: 0;
+    margin-bottom: 0;
+    padding: 25px 0;
+    .collapse {
+      padding: 0 8%;
+    }
+    .nav {
+      li {
+        margin-right: 40px;
+        &:last-child {
+          margin-right: 0;
+        }
+        a {
+          font-size: 14px;
+          color: $red;
+          text-transform: uppercase;
+          padding: 15px 0;
+          &.active {
+            font-weight: 900;
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 767px) {
+    background-color: $red;
+    .navbar-toggle {
+      float: left;
+      padding: 0;
+      border: 0;
+      margin: 14px 15px;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    .navbar {
+      padding: 0;
+      min-height: 47px;
+      .navbar-collapse {
+        position: fixed;
+        z-index: 1000;
+        width: 100%;
+        height: 100vh;
+        min-height: 100vh;
+        background: $red;
+        top: 0;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        @include crossBrowser(transition, .2s ease-in);
+        &.collapse {
+          display: flex;
+          opacity: 0;
+          visibility: hidden;
+          &.in {
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+        .close {
+          position: absolute;
+          z-index: 1;
+          left: 15px;
+          top: 12px;
+          opacity: 1;
+        }
+        .nav {
+          width: 100%;
+          margin: 0;
+          li {
+            margin: 0;
+            a {
+              color: $white;
+              font-size: 24px;
+              font-weight: bold;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+    .mobile-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-top: 0;
+      line-height: 48px;
+    }
+  }
+}

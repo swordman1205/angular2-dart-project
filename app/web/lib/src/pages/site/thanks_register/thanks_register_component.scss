@@ -1,0 +1,77 @@
+@import '../../../../styles/shared';
+
+button-container {
+  text-align: center;
+}
+
+site-content ::ng-deep {
+  @include calc('height', '100vh - 90px');
+  .page-component:first-child {
+    display: none;
+  }
+}
+
+.page-article {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  justify-self: stretch;
+  justify-content: center;
+  align-items: center;
+  padding: 0 100px;
+  position: relative;
+  background-color: $background--light;
+  .page-article-wrapper {
+    padding: 0 20px;
+    text-align: center;
+    .page-article_subtitle {
+      font-size: 42px;
+      line-height: 42px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+    }
+    .page-article_text {
+      font-family: "omnes-pro", sans-serif;
+      font-size: 18px;
+      line-height: 23px;
+    }
+  }
+  .timeline-wrapper {
+    width: 100%;
+    margin: 70px 0 0;
+    max-height: 305px;
+    .timeline-title {
+      font-size: 18px;
+      line-height: 18px;
+    }
+    .trial-process {
+      .trial-process-title {
+        color: $purple;
+      }
+      trial-process {
+        margin-bottom: 20px;
+        display: block;
+      }
+    }
+  }
+  @include mq(false, tablet) {
+    padding: 0;
+    justify-content: initial;
+    align-items: flex-start;
+    .page-article-wrapper {
+      padding: 0 13%;
+    }
+    .timeline-wrapper {
+      padding-left: 13%;
+      box-sizing: border-box;
+      margin-top: 0;
+      max-height: initial;
+      .trial-process {
+        .trial-process-title {
+          padding-bottom: 20px;
+        }
+      }
+    }
+  }
+}

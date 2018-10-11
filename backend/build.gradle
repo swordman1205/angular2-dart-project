@@ -1,0 +1,60 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = false
+        downloadSources = true
+    }
+}
+
+group = 'com.qurasense'
+version = '1.0.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext.libraries = [
+    springBootGradlePlugin : "org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE",
+    swaggerGradlePlugin: "com.benjaminsproule:swagger-gradle-plugin:+",
+    swaggerCodegenPlugin: 'io.swagger:swagger-codegen:2.3.1',
+    gradleGit: "org.ajoberstar:gradle-git:1.7.2",
+
+    springCloudGateway: "org.springframework.cloud:spring-cloud-starter-gateway:2.0.0.RC1",
+    springSecurityOauth: "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.0.RELEASE",
+    sendwithus: "com.sendwithus:java-client:2.1.0",
+    twilio: 'com.twilio.sdk:twilio:7.17.+',
+    junit: "junit:junit:4.12",
+    commonValidator: "commons-validator:commons-validator:1.6",
+    poi: [
+        "org.apache.poi:poi:3.10.1",
+        "org.apache.poi:poi-ooxml:3.9"
+    ],
+    googleCloudStorage: 'com.google.cloud:google-cloud-storage:1.8.0',
+    googleDatastore: 'com.google.cloud:google-cloud-datastore:1.22.0'
+]
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://github.com/sendwithus/sendwithus-mvn-repo/raw/master/releases'
+        }
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+    }
+    ext.depVersions = [
+        'axon': '3.2'
+    ]
+}
+
+task distributeApi(type: Copy, dependsOn: [':user:generateApi', ':health:generateApi', ':lab:generateApi']) {
+    from 'user/build/swagger/out/lib/model'
+    from 'health/build/swagger/out/lib/model'
+    from 'lab/build/swagger/out/lib/model'
+    into '../app/facade/lib/src/generated'
+    eachFile {
+        println it.relativePath
+    }
+}

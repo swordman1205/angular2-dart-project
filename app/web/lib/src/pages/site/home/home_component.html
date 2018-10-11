@@ -1,0 +1,255 @@
+<div class="page-component home">
+    <main style="width: 100%;">
+        <div class="section bg-white section-empowering pt-xs-50">
+            <div class="empowering mt-40 mt-xs-0">
+                <div class="website-container">
+                    <div class="row">
+                        <div class="w-50 w-xs-100 z-1 pos-rel">
+                            <div class="section-image"><img src="/images/home/women.svg" alt="women"></div>
+                        </div>
+                        <div class="w-50 w-xs-100 z-2 pos-rel">
+                            <h2 class="title red">
+                                Empowering
+                                Women, Period.
+                            </h2>
+                            <div class="content">
+                                <div class="content-text red">
+                                    <p class="mb-10">The product is simple to use and empowers women to effectively keep control of their health.</p>
+                                    <p>We have build a unique menstrual pad, which can be used for wellness monitoring and diagnostics. It looks, feels like and is used like any normal menstrual pad but also provides health insights. The pads will eventually be able to utilize menstrual blood to detect biomarkers, vitamins, minerals, and disease markers.</p>
+                                </div>
+                                <a class="main-btn mt-40" [routerLink]="['/Site/Register/Signup/Step', { order: 1, step: 1 }]">SIGN UP FOR OUR CLINICAL TRIAL</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section bg-beige section-clinical-trial">
+            <div class="clinical-trial">
+                <div class="website-container pos-rel-sm">
+                    <div class="row">
+                        <div class="w-50 w-sm-100">
+                            <h4 class="content-text mt-0 red">The clinical trial</h4>
+                            <h2 class="title red mt-xs-50">WE WOULD LOVE YOUR INPUT!</h2>
+                            <div class="content">
+                                <p class="content-text red">We are testing the efficiency and comfortability of the pads and need women, such as yourself, to participate in our clinical trial. As a participant you will be a crucial part of defining the details of our product. We will send you a package of the smart menstrual pads which you will use and test. Participants of the study will receive a giftcard of $25 for their time. Check out if you can participate below.</p>
+                            </div>
+                        </div>
+                        <div class="w-50 w-sm-20 w-xs-100 pos-rel pos-abs-sm image-wrapper center">
+                            <div class="section-image"><img src="/images/home/clinical-trial-image.svg" alt="two women">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section bg-white section-clinical-trial">
+            <div class="clinical-trial">
+                <div class="website-container">
+                    <div class="row">
+                        <div class="w-100 w-sm-100 section-showreel">
+                            <h4 class="mt-0">In collaboration with</h4>
+                            <div class="section-image-showreel"><img src="/images/home/stanford.png" alt="stanford"></div>
+                            <div class="section-image-showreel"><img src="/images/home/yc.png" alt="stanford"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section bg-beige section-participate">
+            <div class="participate">
+                <div class="website-container">
+                    <div class="row">
+                        <div class="w-50 w-sm-70 w-xs-80 pr-xs-10">
+                            <h2 class="title purple">Can you participate?</h2>
+                            <p class="content-text purple">You need to be:</p>
+                            <div class="content content-text">
+                                <ul class="list purple red-dot">
+                                    <li>18+ years old</li>
+                                    <li>Living in the San Diego area</li>
+                                    <li>Menstruate regularly</li>
+                                    <li>Comfortable with a venous blood draw (a nurse we schedule will come to your home to take a normal blood draw)</li>
+                                    <li>Willing to digitally document and send us photos of the used Q-Pad</li>
+                                </ul>
+                                <a class="main-btn mt-50" [routerLink]="['/Site/Register/Signup/Step', { order: 1, step: 1 }]">SIGN UP FOR OUR CLINICAL TRIAL</a>
+                            </div>
+                        </div>
+                        <div class="w-50 w-sm-30 w-xs-20 pos-rel center">
+                            <div class="section-image"><img src="/images/home/participate-image.svg" alt="standing woman">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section bg-white">
+            <div class="unique-biomarkers">
+                <div class="website-container">
+                    <div class="row">
+                        <div class="w-50 w-sm-70 w-xs-100">
+                            <h2 class="title purple">Period blood isn’t waste - it’s an opportunity!</h2>
+                            <div class="content">
+                                <div class="content-text purple">
+                                    <p>Are you having a thousand mixed reactions to the above news? We don’t blame you. We did too. </p>
+                                    <p>We started exploring the uses of menstrual blood back in 2014 with our team at Stanford University Hospital. What we discovered was nothing short of amazing: Period blood has unique information about Women’s health which enables early diagnostics and disease management for Women all over the world.  </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-50 w-sm-30 w-xs-100 pos-rel center">
+                            <div class="section-image"><img src="/images/home/blood.svg" alt="blood"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section bg-beige">
+            <div class="trial-process">
+                <div class="website-container">
+                    <div class="row">
+                        <div class="w-100">
+                            <h2 class="timeline-title purple mt-0 mb-50 text-center-sm">The Trial Process</h2>
+                            <div class="website-timeline mb-40">
+                                <trial-process></trial-process>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section bg-white section-q-pad">
+            <div class="q-pad">
+                <div class="website-container">
+                    <h4 class="subtitle purple">How it works</h4>
+                    <h2 class="title purple">The Q-Pad</h2>
+                    <div class="row">
+                        <div class="w-50 w-sm-init pos-rel">
+                            <div class="section-image"><img src="/images/home/q-pad-image.svg" alt="q-pad"></div>
+                        </div>
+                        <div class="w-50 w-xs-100">
+                            <div class="content flex-vertical-center">
+                                <div class="block pad purple">
+                                    <div class="content-title"><span>The Pad</span></div>
+                                    <div class="content-text">
+                                        <p class="mb-0">The pad consists of 100% organic cotton materials. It contains no chemicals or bleaching materials. The pad is FDA registered.</p>
+                                    </div>
+                                </div>
+                                <div class="block strip purple mt-75 mt-md-40">
+                                    <div class="content-title"><span>The Strip</span></div>
+                                    <div class="content-text">
+                                        <p class="mb-0">Provides sample preparation. It separates plasma from the red blood cells, and preserves and stabilizes the sample so it can be analysed in a laboratory.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section bg-beige">
+            <div class="who-faq">
+                <div class="website-container">
+                    <h2 class="title red">The founders</h2>
+                    <div class="row pt-30 pb-140 pb-sm-90 pb-xs-70">
+                        <div class="w-50 w-xs-100 mb-xs-60">
+                            <div class="content">
+                                <div class="person">
+                                    <div class="image"><img src="/images/home/sara.jpg" alt="sara"></div>
+                                    <div class="about red">
+                                        <div class="name">Sara Naseri</div>
+                                        <div class="info">Medical and research focus</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-50 w-xs-100">
+                            <div class="content">
+                                <div class="person">
+                                    <div class="image"><img src="/images/home/soren.jpg" alt="soren"></div>
+                                    <div class="about red">
+                                        <div class="name">Søren Therkelsen</div>
+                                        <div class="info">Product and company focus</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section bg-white">
+            <div class="faq">
+                <div class="website-container">
+                    <h2 class="title purple">FAQ</h2>
+                    <div class="row">
+                        <div class="w-50 w-xs-100 left-faq">
+                            <div class="faq-list">
+                                <div class="block">
+                                    <div class="red">Q: Is it harmful to participate in the study?</div>
+                                    <div class="purple">A: The pad is organic, cotton based and has no added chemicals. We have tested the product on +500 women with no issue. A professional phlebotomist will perform a blood draw from where you will feel a small pinch on your arm, which may create some discomfort.</div>
+                                </div>
+                                <div class="block">
+                                    <div class="red">Q: Will I get compensated to participate?</div>
+                                    <div class="purple">A: To participate all you need to do is use the pads and schedule a time for a professional phlebotomist to come to your house and do a quick blood draw. We will compensate you with $25 for your time.</div>
+                                </div>
+                                <div class="block">
+                                    <div class="red">Q: Can I still participate in the testing if I live outside the San Diego or Palo Alto area?</div>
+                                    <div class="purple">A: For this product you have to be in the San Diego or San Francisco/Palo Alto area. Please sign up for our newsletter to know when it is possible to try the product in your city.</div>
+                                </div>
+                                <div class="block">
+                                    <div class="red">Q: Will I receive the results from the blood testing?</div>
+                                    <div class="purple">A: Currently we are unable to provide you with the values unless any biomarkers are abnormal in which case our medical staff will contact you.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-50 w-xs-100 right-faq">
+                            <div class="faq-list">
+                                <div class="block">
+                                    <div class="red">Q: Who will see my data and information?</div>
+                                    <div class="purple">A: All samples are de-identified. Only study staff will be able look up samples if values are abnormally high, in which case our medical staff will contact you. </div>
+                                </div>
+                                <div class="block">
+                                    <div class="red">Q: How do you protect my data?</div>
+                                    <div class="purple">A: All data from this study is encrypted and stored securely. The data will not be shared with 3rd parties outside research staff. Please see more in our Privacy Policy and reach out to us if you have questions.</div>
+                                </div>
+                                <div class="block">
+                                    <div class="red">Q: How much time does it take to participate?</div>
+                                    <div class="purple">A: It takes about an hour to complete the study excluding the time you use the Q-pads.</div>
+                                </div>
+                                <div class="block">
+                                    <div class="red">Q: Where will I get the blood draw?</div>
+                                    <div class="purple">A: A professional nurse will call you and coordinate with you where and when a good place to take the blood draw is. Ideally, the nurse will meet at your home.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="row">
+            <div class="left">
+                <h2 class="title white mb-15">Feel free to contact us if you have any questions</h2>
+                <div class="contacts"><a class="white-link" href="mailto:research@qurasense.com">research@qurasense.com</a><a class="white-link" href="tel:+14157028935">+1-415-702-8935</a></div>
+                <a class="main-btn transparent outline mt-40" [routerLink]="['/Site/Register/Signup/Step', { order: 1, step: 1 }]">SIGN UP FOR OUR CLINICAL TRIAL</a>
+            </div>
+            <div class="right">
+                <h2 class="title white">Subscribe to our news letter</h2>
+                <div class="subscribe">
+                    <div class="subscribe-title"><span>Don’t worry, we will only <b>periodically</b> send you updates</span></div>
+                    <form class="subscribe-form">
+                        <input type="email" placeholder="email address" required>
+                        <input class="mt-40 mt-xs-25" type="submit" value="subscribe">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="column text-center mt-50">
+            <p class="white fs-11">Products under Qurasense Inc. is patent pending under US20170265789A1 and WO2017161378A1.</p>
+            <p class="white fs-11">Additional patents may be pending in the United States or elsewhere.</p>
+            <a href="https://www.dropbox.com/s/x8kopfu5qtdry4j/PrivacyPolicy_Qurasense.pdf?dl=0" target="_blank" class="white-link mr-20 fs-14">Privacy Policy</a>|<a href="https://www.dropbox.com/s/4e8dxw1y1jfs12p/TermsOfUse_Qurasense.pdf?dl=0" target="_blank" class="white-link ml-20 fs-14">Terms of Use</a>
+        </div>
+    </footer>
+</div>

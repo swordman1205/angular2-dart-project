@@ -1,0 +1,4 @@
+FROM google/cloud-sdk
+ENV CLOUDSDK_CORE_PROJECT test
+ENTRYPOINT ["gcloud", "beta", "emulators", "pubsub", "start", "--host-port", "0.0.0.0:8381"]
+EXPOSE 8381

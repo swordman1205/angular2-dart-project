@@ -1,0 +1,36 @@
+version: '3'
+services:
+  gateway:
+    build:
+      context: service_gateway
+      dockerfile: Dockerfile
+    ports:
+     - "8080:8080"
+  datastore:
+    build:
+      context: cloud_mock
+      dockerfile: Datastore.docker
+    ports:
+     - "8380:8380"
+  pubsub:
+    build:
+      context: cloud_mock
+      dockerfile: Pubsub.docker
+    ports:
+     - "8381:8381"
+  user:
+    build:
+      context: service_user
+      dockerfile: Dockerfile
+    environment:
+     - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-emulator}
+    ports:
+     - "8082:8082"
+  health:
+    build:
+      context: service_health
+      dockerfile: Dockerfile
+    environment:
+     - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-emulator}
+    ports:
+     - "8081:8081"

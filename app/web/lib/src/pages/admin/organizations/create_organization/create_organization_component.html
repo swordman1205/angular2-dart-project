@@ -1,0 +1,14 @@
+<form [ngFormModel]="form" (ngSubmit)="onSubmit()">
+    <input ngControl="name" placeholder="Name">
+    <material-dropdown-select [buttonText]="selectedType?.caption ?? 'Select type'">
+        <material-select-item *ngFor="let type of types"
+                              (trigger)="selectedType = type"
+                              [selected]="selectedType == type">
+            {{type.caption}}
+        </material-select-item>
+    </material-dropdown-select>
+    <button type="submit" class="btn btn-danger" [disabled]="!form.valid || selectedType == null">Save</button>
+</form>
+
+<!--p>Value: {{ form.value | json }}</p>
+<p>Validation status: {{ form.status }}</p-->

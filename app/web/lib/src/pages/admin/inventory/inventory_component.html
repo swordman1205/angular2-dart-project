@@ -1,0 +1,28 @@
+<template [ngIf]="action == null">
+    <header class="actions-header">
+        <h2 class="actions-area">Manufacturing</h2>
+        <nav class="actions-nav">
+            <a class="action">Add inventory</a>
+        </nav>
+    </header>
+
+    <div class="Rtable Rtable--3cols">
+        <span class="Rtable-header Rtable-cell">Lot</span>
+        <span class="Rtable-header Rtable-cell">Inventory</span>
+        <span class="Rtable-header Rtable-cell">Date</span>
+        <!-- TODO let email be link to the customer detail site -->
+
+        <!--template ngFor let-inventory [ngForOf]="inventoryItems" let-isStriped="even" let-i="index">
+            <span class="Rtable-cell" [rowHover]="i">{{inventory.lot}}</span>
+            <span class="Rtable-cell" [rowHover]="i">{{inventory.items}}</span>
+            <span class="Rtable-cell" [rowHover]="i">{{inventory.expirationDate | date:'medium'}}</span>
+        </template-->
+    </div>
+
+    <!--modal [visible]="action != null" [ngSwitch]="action">
+        <material-dialog>
+            <create-user *ngSwitchCase="'CREATE'" (onAction)="onAction($event)"></create-user>
+            <delete-user *ngSwitchCase="'DELETE'" (onAction)="onAction($event)" [user]="userForDelete"></delete-user>
+        </material-dialog>
+    </modal-->
+</template>

@@ -1,0 +1,84 @@
+form {
+  margin-top: 30px;
+}
+
+.account-user-info {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.account-customer-info {
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.account-actions {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 30px;
+}
+
+material-input {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  max-width: 100% !important;
+  ::ng-deep {
+    .baseline {
+      height: 100%;
+      background: #FFFFFF;
+      border-radius: 100px;
+      width: 80%;
+      .top-section {
+        margin-bottom: 0;
+        .input-container {
+          margin-top: 0;
+          .input {
+            color: #070707;
+            padding-left: 25px;
+            height: 40px;
+            font-size: 14px;
+            box-sizing: border-box;
+          }
+          .label {
+            top: 40px;
+            left: -78px;
+            right: auto;
+          }
+          .label-text {
+            color: #5D2FCD;
+            margin-left: 25px;
+            margin-top: 10px;
+            font-family: "omnes-pro", sans-serif;
+            font-style: normal;
+            font-size: 14px;
+            &.animated {
+              transform: translateY(-100%) translateY(-20px);
+            }
+          }
+        }
+      }
+      .underline {
+        display: none;
+      }
+    }
+    .bottom-section {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .account-actions .btn {
+    margin-left: 0 !important;
+  }
+  .account-actions .btn ::ng-deep .content {
+    padding: 1px 22px !important;
+  }
+}

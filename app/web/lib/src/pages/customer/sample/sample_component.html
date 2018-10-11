@@ -1,0 +1,14 @@
+<!--current wizard: {{currentWizard}}-->
+<!--allowedWizard: {{allowedWizard}}-->
+<template [ngIf]="sampleData != null">
+    <sample-step1 class="sample-step" #sample1 [class.allowed]="allowedWizard >= 0" [class.active]="currentWizard == 0" [name]="wizardOf(0)" [steps]="stepsOf(0)" [activeStep]="currentStepList[0]" [active]="currentWizard == 0" (stateChange)="stateChange($event)" [(sampleData)]="sampleData"></sample-step1>
+    <sample-step2 class="sample-step" #sample2 [class.allowed]="allowedWizard >= 1" [class.active]="currentWizard == 1" [name]="wizardOf(1)" [steps]="stepsOf(1)" [activeStep]="currentStepList[1]" [active]="currentWizard == 1" (stateChange)="stateChange($event)" [(sampleData)]="sampleData"></sample-step2>
+    <sample-step3 class="sample-step" #sample3 [class.allowed]="allowedWizard >= 2" [class.active]="currentWizard == 2" [name]="wizardOf(2)" [steps]="stepsOf(2)" [activeStep]="currentStepList[2]" [active]="currentWizard == 2" (stateChange)="stateChange($event)" [(sampleData)]="sampleData"></sample-step3>
+</template>
+<!--
+<template [ngIf]="sampleData != null">
+    <sample-step1 *ngIf="allowedStep >= 1" [name]="'sample'" [active]="currentStep == 1" (stateChange)="stateChange(1,$event,2)" [(sampleData)]="sampleData"></sample-step1>
+    <sample-step2 *ngIf="allowedStep >= 2" [name]="'sample'" [active]="currentStep == 2" (stateChange)="stateChange(2,$event,3)" [(sampleData)]="sampleData"></sample-step2>
+    <sample-step3 *ngIf="allowedStep >= 3" [name]="'sample'" [active]="currentStep == 3" (stateChange)="stateChange(3,$event,4)" [(sampleData)]="sampleData"></sample-step3>
+</template>-->
+<router-outlet></router-outlet>

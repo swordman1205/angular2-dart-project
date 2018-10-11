@@ -1,0 +1,48 @@
+<site-content>
+    <div class="page-article step-content hidden-xs hidden-sm" menu-header>
+        <h2 class="page-article_subtitle white">Sorry!</h2>
+        <p class="page-article_text white">Qurasense can only be used by mensturating women. Afterall, that is what it is
+            all about.</p>
+        <p class="page-article_text white">If you are not mensturating because of birth control pills and are planning to
+            stop, you can participate when you start mensturating again</p>
+    </div>
+
+    <div class="site-page-content sorry w-100" menu-content>
+        <div class="page-article step-content w-sm-100">
+            <div class="input-wrapper w-100 pl-sm-50 pr-sm-50">
+                <div class="hidden-xs hidden-sm">
+                    <h2 class="page-article_subtitle">Subscribe to Our Newsletter</h2>
+                    <p class="page-article_text">Subscribe to our news letter and we will let you know when we launch!</p>
+                </div>
+                <div class="visible-xs visible-sm">
+                    <h2 class="page-article_subtitle">Sorry!</h2>
+                    <p class="page-article_text">Qurasense can only be used by mensturating women. Afterall, that is what it is
+                        all about.</p>
+                    <p class="page-article_text">If you are not mensturating because of birth control pills and are planning to
+                        stop, you can participate when you start mensturating again</p>
+                </div>
+                <form [ngFormModel]="emailForm">
+                    <h2 class="page-article_subtitle visible-xs visible-sm">Subscribe to our news letter instead</h2>
+                    <material-input
+                        label="e-mail address"
+                        [(ngModel)]="emailValue"
+                        (ngModelChange)="submitted = false"
+                        ngControl="email"
+                        #email="ngForm"
+                        (keyup.enter)="subscribe()"
+                        required>
+                    </material-input>
+                    <ul class="error-box" *ngIf="!emailForm.valid && submitted">
+                        <li [hidden]="!email.control.hasError('required')" class="error">
+                            Email is required
+                        </li>
+                        <li [hidden]="!email.control.hasError('badFormat')" class="error">
+                            Bad email format
+                        </li>
+                    </ul>
+                    <material-button class="btn btn-out btn-purple" (trigger)="subscribe()">subscribe</material-button>
+                </form>
+            </div>
+        </div>
+    </div>
+</site-content>

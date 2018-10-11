@@ -1,0 +1,80 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: qurasense-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: qurasense-cluster-ip
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    app: gateway
+spec:
+  tls:
+    - secretName: qurasense-production-tls
+      hosts:
+      - trial.qurasense.com
+  backend:
+    serviceName: gateway
+    servicePort: 8080
+---
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-production
+spec:
+  acme:
+    server: https://acme-v01.api.letsencrypt.org/directory
+    email: zufar@qurasense.com
+    privateKeySecretRef:
+      name: letsencrypt-production
+    http01: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: gateway
+  labels:
+    app: gateway
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    name: gateway
+    targetPort: 8080
+    nodePort: 32754
+  selector:
+    app: gateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: user
+  labels:
+    app: user
+spec:
+  ports:
+  - port: 8082
+    name: user
+    targetPort: 8082
+  selector:
+    app: user
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: health
+  labels:
+    app: health
+spec:
+  ports:
+  - port: 8081
+    name: health
+    targetPort: 8081
+  selector:
+    app: health

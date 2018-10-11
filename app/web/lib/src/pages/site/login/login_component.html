@@ -1,0 +1,53 @@
+<site-content>
+    <div class="page-article hidden-xs hidden-sm" menu-header>
+        <h2 class="page-article_subtitle">Mobile<br>First</h2>
+        <p class="page-article_text">We recommend that you use our site on your mobile device. You can go to the same url on your phone and login.</p>
+    </div>
+
+    <div class="login w-100 mt-150 mt-sm-0" menu-content>
+        <div class="page-article step-content w-sm-100 w-50">
+            <p class="page-article_text pr-0 text-center-sm mt-sm-50 pr-sm-20 pl-sm-20 w-100">Make sure your e-mail is confirmed before attempting to log in</p>
+            <form class="input-wrapper w-100 pl-sm-50 pr-sm-50" [ngFormModel]="loginForm">
+                <material-input label="Username or email"
+                                autofocus
+                                [(ngModel)]="user['email']"
+                                (ngModelChange)="submitted = false"
+                                ngControl="email"
+                                #email="ngForm"
+                                required
+                                (keyup.enter)="login()">
+                </material-input>
+                <material-input label="Password"
+                                [(ngModel)]="user['password']"
+                                (ngModelChange)="submitted = false"
+                                ngControl="password"
+                                #password="ngForm"
+                                type="password"
+                                required
+                                (keyup.enter)="login()">
+                </material-input>
+                <ul class="error-box" *ngIf="(!loginForm.valid || errorMessage.isNotEmpty) && submitted">
+                    <li [hidden]="!email.control.hasError('required')" class="error">
+                        Username or email is required
+                    </li>
+                    <li [hidden]="!password.control.hasError('required')" class="error">
+                        Password is required
+                    </li>
+                    <li [hidden]="errorMessage.isEmpty" class="error">
+                        {{errorMessage}}
+                    </li>
+                </ul>
+                <a [routerLink]="['/Site/ForgotPassword']" class="page-article_text text-center-sm pr-sm-0">forgot password?</a>
+                <div class="text-center-sm">
+                    <material-button type="submit" class="btn btn-out btn-purple fs-12 ml-0 w-init pr-20 pl-20" (trigger)="login()">Login to your trial page</material-button>
+                </div>
+            </form>
+            <div class="signup-wrapper w-100 mt-100 mt-sm-50">
+                <p class="page-article_text text-center-sm pr-sm-0">Don't have an account yet?</p>
+                <div class="text-center-sm">
+                    <material-button class="btn btn-out btn-purple fs-12 ml-0" [routerLink]="['/Site/Register/Signup/Step', { order: 1, step: 1 }]">Sign up</material-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</site-content>

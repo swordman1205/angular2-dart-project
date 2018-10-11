@@ -1,0 +1,16 @@
+<template [ngIf]="userData != null">
+    <signup-step1 #signup1 [class.allowed]="allowedWizard >= 0" [class.active]="currentWizard == 0" [name]="wizardOf(0)" [steps]="stepsOf(0)" [activeStep]="currentStepList[0]" [active]="currentWizard == 0" [style.height]="getHeight(0)" (stateChange)="stateChange($event)" [(userData)]="userData"></signup-step1>
+    <signup-step2 #signup2 [class.allowed]="allowedWizard >= 1" [class.active]="currentWizard == 1" [name]="wizardOf(1)" [steps]="stepsOf(1)" [activeStep]="currentStepList[1]" [active]="currentWizard == 1" [style.height]="getHeight(1)" (stateChange)="stateChange($event)" [(userData)]="userData"></signup-step2>
+    <signup-step3 #signup3 [class.allowed]="allowedWizard >= 2" [class.active]="currentWizard == 2" [name]="wizardOf(2)" [steps]="stepsOf(2)" [activeStep]="currentStepList[2]" [active]="currentWizard == 2" [style.height]="getHeight(2)" (stateChange)="stateChange($event)" [(userData)]="userData"></signup-step3>
+    <signup-step4 #signup4 [class.allowed]="allowedWizard >= 3" [class.active]="currentWizard == 3" [name]="wizardOf(3)" [steps]="stepsOf(3)" [activeStep]="currentStepList[3]" [active]="currentWizard == 3" [style.height]="getHeight(3)" (stateChange)="stateChange($event)" [(userData)]="userData"></signup-step4>
+
+    <ul class="wizard-progress">
+        <li *ngFor="let wizard of wizardNames; let i = index"
+            mini
+            [class.active]="isCurrentWizard(wizard)"
+            [class.allowed]="isAllowedWizard(wizard)"
+            (click)="activateWizard(i)">{{wizard}}</li>
+    </ul>
+    <material-progress [activeProgress]="completionPercent" class="material-progress__container--color_white material-progress--color-red"></material-progress>
+</template>
+<router-outlet></router-outlet>

@@ -1,0 +1,43 @@
+:host {
+  //display: flex;
+  //align-items: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.time-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 60%;
+}
+
+input {
+  margin-top: 22px !important;
+  border-radius: 100px;
+  border: 0;
+  width: 40px;
+  min-height: 40px;
+  padding-left: 10px;
+}
+
+.time-divider {
+  margin: 0 10px;
+  margin-top: 13px;
+}
+
+material-input {
+  max-width: 40px;
+  ::ng-deep {
+    .bottom-section {
+      display: none;
+    }
+  }
+}
+
+two-label-toggle {
+  margin-left: 15px;
+  margin-top: 20px;
+}

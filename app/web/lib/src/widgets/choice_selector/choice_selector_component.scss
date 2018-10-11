@@ -1,0 +1,19 @@
+.selector_option {
+  cursor: pointer;
+}
+
+.selector_option.active {
+  background-color: transparent;
+}
+
+:host {
+  &.custom-size {
+    .choice-buttons-wrapper .selector_option {
+      width: 128px !important;
+      margin: 0 10px 10px 0;
+      @media screen and (max-width: 375px) {
+        width: 108px!important;
+      }
+    }
+  }
+}

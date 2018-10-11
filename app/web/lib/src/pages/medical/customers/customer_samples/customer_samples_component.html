@@ -1,0 +1,15 @@
+<!--section class="bordered">
+        <h3>Samples:</h3>
+        <div class="Rtable Rtable--2cols">
+            <template ngFor let-sample [ngForOf]="samples" let-isStriped="even">
+                <span [class.is-striped]="isStriped" class="Rtable-cell time">{{sample.createTime | date:'medium'}}</span>
+                <span [class.is-striped]="isStriped" class="Rtable-cell actions">
+                    <a class="action" (click)="downloadSample(sample.userId, sample.id)"><glyph [icon]="'get_app'"></glyph></a>
+                </span>
+            </template>
+            <p *ngIf="samples?.length == 0">No samples yet</p>
+            <material-button *ngIf="samples?.length > 0" (trigger)="downloadSamplesZip()">
+                Download sample zip
+            </material-button>
+        </div>
+    </section-->

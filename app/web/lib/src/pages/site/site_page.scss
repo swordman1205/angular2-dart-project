@@ -1,0 +1,126 @@
+@import "../../../styles/shared";
+$pragmatica: "pragmatice", sans-serif;
+
+/* Document
+   ========================================================================== */
+
+/**
+ * 1. Correct the line height in all browsers.
+ * 2. Prevent adjustments of font size after orientation changes in
+ *    IE on Windows Phone and in iOS.
+ */
+::ng-deep html {
+  line-height: 1.15; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+:host {
+    color: $white;
+    background-color: $white;
+}
+
+.router-link-active {
+    font-weight: bold;
+}
+
+.page-header-nav {
+    a {
+        font-size: 14px;
+        margin-right: 60px;
+        color: $red;
+        text-transform: uppercase;
+        font-weight: 100;
+        text-decoration: none;
+        @include crossBrowser('transition', '.2s ease-in');
+        &.router-link-active,
+        &.active {
+            font-weight: bold !important;
+        }
+    }
+}
+
+.page-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+::ng-deep h2, ::ng-deep h3, ::ng-deep p {
+    color: $purple;
+}
+
+::ng-deep .white-link {
+  color: $white;
+  text-decoration: none;
+}
+
+::ng-deep .main-btn {
+  box-sizing: border-box;
+  @include crossBrowser(transition, .2s ease-in);
+  text-decoration: none;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $white;
+    text-decoration: none;
+  }
+  display: block;
+  color: $red;
+  background: transparent;
+  border: 2px solid $red;
+  border-radius: 100px;
+  width: 300px;
+  height: 40px;
+  font-size: 15px;
+  line-height: 36px;
+  font-family: $pragmatica;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  @include crossBrowser(transition, .2s ease-in);
+  &:hover {
+    background: $red;
+    border-color: $red;
+    color: $white;
+  }
+  &.transparent {
+    background: transparent;
+    border-color: $white;
+    &:hover {
+      background: $white;
+      color: $red;
+    }
+    &.outline {
+      border-width: 1px;
+      color: $white;
+      &:hover {
+        color: $red;
+      }
+    }
+  }
+  .purple {
+    color: $purple;
+    border: 2px solid $purple;
+    @include crossBrowser(transition, .2s ease-in);
+    &:hover {
+      background: $purple;
+      border-color: $purple;
+    }
+    &.transparent:hover {
+      color: $purple;
+    }
+  }
+}
+
+::ng-deep .main-btn.main-btn--inline {
+  display: inline-block;
+}
+
+navbar:not(.red) {
+  @include mq(tablet) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+}

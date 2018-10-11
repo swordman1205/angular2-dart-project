@@ -1,0 +1,15 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+#If there is default appengine application uncomment instead default
+#service: cloud-datastore-admin
+service: default
+
+libraries:
+- name: webapp2
+  version: "latest"
+
+handlers:
+- url: /cloud-datastore-export
+  script: cloud_datastore_admin.app
+  login: admin

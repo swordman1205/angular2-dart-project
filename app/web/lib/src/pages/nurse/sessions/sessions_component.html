@@ -1,0 +1,16 @@
+<template [ngIf]="participantCustomers != null">
+    <header class="actions-header">
+        <h2 class="actions-area">Sessions</h2>
+    </header>
+
+    <div class="Rtable Rtable--2cols">
+        <span class="Rtable-header Rtable-cell">Name</span>
+        <span class="Rtable-header Rtable-cell">Address</span>
+
+        <template ngFor let-participantCustomer [ngForOf]="participantCustomers" let-i="index">
+            <span class="Rtable-cell" [rowHover]="i">{{participantCustomer.customer.fullName}}</span>
+            <span class="Rtable-cell" [rowHover]="i">{{participantCustomer.customer | customerAddress}}</span>
+        </template>
+    </div>
+
+</template>

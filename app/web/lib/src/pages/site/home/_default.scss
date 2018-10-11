@@ -1,0 +1,152 @@
+/* Default settings */
+body {
+  font-family: $pragmatica;
+  font-size: 14px;
+  font-weight: 400;
+  color: $black;
+  background-color: $white;
+  overflow-x: hidden;
+}
+
+button {
+  @include crossBrowser(transition, .2s ease-in);
+}
+
+input {
+  &:focus {
+    outline: 0;
+  }
+}
+
+input[type='button'],
+input[type='submit'] {
+  display: block;
+  color: $white;
+  background: transparent;
+  border: 1px solid $white;
+  border-radius: 100px;
+  cursor: pointer;
+  width: 143px;
+  height: 40px;
+  font-size: 15px;
+  line-height: 36px;
+  text-transform: uppercase;
+  font-family: $pragmatica;
+  font-weight: bold;
+  text-align: center;
+  @include crossBrowser(transition, .2s ease-in);
+  &:hover {
+    background: $white;
+    color: $red;
+  }
+}
+
+b {
+  font-family: $pragmatica;
+  font-weight: 700;
+}
+
+svg {
+  @include crossBrowser(transition, .2s ease-in);
+  path,
+  rect {
+    @include crossBrowser(transition, .2s ease-in);
+  }
+}
+
+.thin {
+  font-weight: 100;
+}
+
+.light {
+  font-weight: 200;
+}
+
+.regular {
+  font-weight: 400;
+}
+
+.medium {
+  font-weight: 600;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.purple {
+  color: $purple;
+  p {
+    color: $purple;
+  }
+}
+
+.red {
+  color: $red;
+  p {
+    color: $red;
+  }
+}
+
+.white {
+  color: $white;
+  p {
+    color: $white;
+  }
+}
+
+.font-omnes {
+  font-family: $omnes;
+}
+
+.font-pragmatica {
+  font-family: $pragmatica;
+}
+
+.flex-vertical-center {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
+}
+
+.website-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+
+  h4 + h2 {
+    margin-top: 0px;
+  }
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (min-width: 768px) {
+  .website-container {
+    width: calc(750px - 35px);
+    padding: 0 25px;
+  }
+}
+@media (min-width: 992px) {
+  .website-container {
+    width: 970px;
+    padding: 0 15px;
+  }
+}
+@media (min-width: 1200px) {
+  .website-container {
+    width: 1170px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .row {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,2 @@
+communicaltion:
+  researchAddress: ${COMMUNICALTION_RESEARCH_ADDRESS:}

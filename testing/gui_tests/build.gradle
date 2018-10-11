@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.fluentlenium:fluentlenium-junit:3.4.1'
+    testCompile 'org.fluentlenium:fluentlenium-assertj:3.4.1'
+    testCompile 'org.assertj:assertj-core:1.7.0'
+    testCompile 'org.seleniumhq.selenium:selenium-java:3.5.3'
+}

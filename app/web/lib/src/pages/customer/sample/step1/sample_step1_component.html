@@ -1,0 +1,113 @@
+<h3 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h3>
+<form [hidden]="!active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini [class.active]="isCurrentStep(step)" (click)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <section class="step-content" [class.active]="isCurrentStep('kit-id')">
+        <form class="step-form" [ngFormModel]="kitIdForm">
+            <h3 class="step-subtitle">REGISTER YOUR KIT NUMBER</h3>
+            <p class="step-paragraph">The pad came in a black bag which has a Kit ID stamp on the outside. Please input the Kit ID for the pad you are currently using here:</p>
+            <input autofocus
+                   class="input"
+                   type="tel"
+                   placeholder="Enter your kit ID here"
+                   [(ngModel)]="sampleData.kitId"
+                   (ngModelChange)="submitted = false"
+                   ngControl="kitId"
+                   #kitId="ngForm"
+                   required>
+            <ul class="error-box" [hidden]="kitIdForm.valid || !submitted">
+                <li [hidden]="!kitId.control.hasError('required')" class="error mb-0">
+                  This field is required
+                </li>
+                <li [hidden]="!kitId.control.hasError('invalidFormat')" class="error mb-0">
+                  6 digits
+                </li>
+            </ul>
+            <div class="w-100">
+              <material-button class="btn-next btn btn-in btn-purple" (click)="jumpToNextStep()">
+                  <svg>
+                      <use class="arrow" xlink:href="#arrow-purple"></use>
+                  </svg>
+              </material-button>
+            </div>
+        </form>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('time-started')">
+        <h3 class="step-subtitle">USE Q-PAD</h3>
+        <p class="step-paragraph">Start using the pad, and input the date and specific time you started using it. If you have already started using it, adjust the time below accordingly.</p>
+        <date-selector class="mt-15"
+                       [(ngModel)]="sampleData.padStartTime"
+                       (ngModelChange)="submitted = false"
+                       autofocus
+                       required></date-selector>
+        <time-selector [label]="'AM/PM'" [value]="beginUsingTime" (valueChanged)="beginUsingTime = $event"></time-selector>
+        <ul class="error-box" [hidden]="(sampleData.padStartTime != null && sampleData.padStartTime.year != -1) || !submitted">
+          <li [hidden]="sampleData.padStartTime != null" class="error mb-0">
+            This field is required
+          </li>
+          <li *ngIf="sampleData.padStartTime != null" [hidden]="sampleData.padStartTime.year != -1" class="error mb-0">
+            Invalid date
+          </li>
+        </ul>
+        <div class="w-100">
+          <material-button class="btn-next btn btn-in btn-purple pull-left" (click)="navigateToPrevious()">
+            back
+          </material-button>
+          <material-button class="btn-next btn btn-in btn-purple pull-right" (click)="jumpToNextStep()">
+            <svg>
+              <use class="arrow" xlink:href="#arrow-purple"></use>
+            </svg>
+          </material-button>
+        </div>
+    </section>
+
+    <section class="step-content" [class.active]="isCurrentStep('day-period')">
+        <h3 class="step-subtitle">DAY OF PERIOD</h3>
+        <p class="step-paragraph">Select which day of your period you are using the Q-pad. 1 day means you are using it on the first day of your period.</p>
+        <number-picker [(value)]="dayOfPeriod" [min]="1" [max]="9999"></number-picker>
+        <div class="w-100">
+          <material-button class="btn-next btn btn-in btn-purple pull-left" (click)="navigateToPrevious()">
+            back
+          </material-button>
+          <material-button class="btn-next btn btn-in btn-purple pull-right" (click)="confirm()">
+              <svg>
+                  <use class="arrow" xlink:href="#arrow-purple"></use>
+              </svg>
+          </material-button>
+        </div>
+        <modal [visible]="showGoodJobRegister">
+            <material-dialog class="basic-dialog material-dialog--external purple">
+                <h3 header>GOOD JOB!</h3>
+                <p>
+                    Please use the pad until it's saturated and you feel the need to change it. When you are ready to change the product, log back onto the website using your phone. Keep the the ziplocked bag close to you.
+                </p>
+                <br>
+                <h3 class="second-header">LOG BACK IN</h3>
+                <p>
+                    When you are ready, log back in and submit pictures and feedback on your experience.
+                </p>
+                <div footer>
+                    <material-button clear-size
+                                     (trigger)="showGoodJobRegister = false"
+                                     class="white w-146">
+                        Got it
+                    </material-button>
+                </div>
+            </material-dialog>
+        </modal>
+        <!--<img class="step-image" src="images/sample/day-period.png">-->
+    </section>
+
+</form>

@@ -1,0 +1,65 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+::ng-deep {
+  .selector_option,
+  .step-title,
+  .step-subtitle,
+  material-fab,
+  material-toggle,
+  material-button,
+  .number-picker-value {
+    color: #5D2FCD;
+  }
+  .step-content p,
+  material-input {
+    color: #070707;
+  }
+  .toggle-agreement {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    .label-agree {
+      font-size: 18px;
+      font-weight: bold;
+      color: #5D2FCD;
+      margin-right: 15px;
+    }
+    two-label-toggle {
+      margin-top: 0;
+    }
+  }
+  .heightFeet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //padding: 8px 0;
+    material-dropdown-select {
+      margin-top: 0;
+      margin-right: 25px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.wizard-component {
+  width: calc(100% - 180px);
+  margin: 0 65px;
+}
+
+@media screen and (max-width: 1160px) {
+    .wizard-component {
+        width: calc(100% - 170px);
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .wizard-component {
+        margin: 0;
+        width: 100%;
+    }
+}

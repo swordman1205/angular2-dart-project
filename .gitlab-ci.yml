@@ -1,0 +1,326 @@
+stages:
+  - web_build
+  - java_build
+  - docker_images
+  - e2e_deploy
+  - e2e_test_data
+  - e2e_test
+  - e2e_undeploy
+  - production_docker_images
+  - deploy
+  - test_data
+
+build_web:
+  stage: web_build
+  image: google/dart
+  cache:
+    paths:
+      - /var/cache/pub
+  script:
+    - dart --version
+    - cd app/web
+    - sed -i 's/_backendType = BackendType.MOCK/_backendType = BackendType.PRODUCTION/g' public/main.dart
+    - sed -i 's/_backendType = BackendType.EMULATOR/_backendType = BackendType.PRODUCTION/g' public/main.dart
+    - pub get
+    - pub run test
+    - pub build public
+  artifacts:
+    paths:
+      - app/web/build/public
+    expire_in: 1 week
+  only:
+    - master
+
+build_java:
+  stage: java_build
+  image: gradle:alpine
+  variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  cache:
+    paths:
+      - .gradle/wrapper
+      - .gradle/caches
+  script:
+    - ls -la app/web
+    - mkdir -p backend/gateway/src/main/resources/public/
+    - cp -fr app/web/build/public/* backend/gateway/src/main/resources/public/
+    - cd backend
+    - gradle build
+  artifacts:
+    paths:
+      - backend/gateway/build/libs/*.jar
+      - backend/user/build/libs/*.jar
+      - backend/health/build/libs/*.jar
+      - backend/communication/build/libs/*.jar
+      - backend/lab/build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
+  dependencies:
+  - build_web
+  
+docker_images:
+  stage: docker_images
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    ##login to gitlab docker registry build and push to gitlab
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -t registry.gitlab.com/qurasense-dev/qurasense/service_user:v1 -f backend/user/Dockerfile backend/user
+    - docker push registry.gitlab.com/qurasense-dev/qurasense/service_user:v1
+    - docker build -t registry.gitlab.com/qurasense-dev/qurasense/service_health:v1 -f backend/health/Dockerfile backend/health
+    - docker push registry.gitlab.com/qurasense-dev/qurasense/service_health:v1
+    - docker build -t registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1 -f backend/gateway/Dockerfile backend/gateway
+    - docker push registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1
+    - docker build -t registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1 -f backend/communication/Dockerfile backend/communication
+    - docker push registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1
+    - docker build -t registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1 -f backend/lab/Dockerfile backend/lab
+    - docker push registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1
+
+    ##login to qurasense-test docker registry, tag for qurasense-test gcloud project and push to gcr
+    - docker login -u _json_key -p "$GOOGLE_KEY" https://gcr.io
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_user:v1 gcr.io/qurasense-test-1/service_user:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_health:v1 gcr.io/qurasense-test-1/service_health:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1 gcr.io/qurasense-test-1/service_gateway:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1 gcr.io/qurasense-test-1/service_communication:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1 gcr.io/qurasense-test-1/service_lab:v1
+    - docker push gcr.io/qurasense-test-1/service_user:v1
+    - docker push gcr.io/qurasense-test-1/service_health:v1
+    - docker push gcr.io/qurasense-test-1/service_gateway:v1
+    - docker push gcr.io/qurasense-test-1/service_communication:v1
+    - docker push gcr.io/qurasense-test-1/service_lab:v1
+
+    ##login to qurasense-master-e2e docker registry, tag for qurasense-master-e2e gcloud project and push to gcr
+    - docker login -u _json_key -p "$(cat Qurasense-master-e2e.json)" https://gcr.io
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_user:v1 gcr.io/qurasense-master-e2e/service_user:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_health:v1 gcr.io/qurasense-master-e2e/service_health:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1 gcr.io/qurasense-master-e2e/service_gateway:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1 gcr.io/qurasense-master-e2e/service_communication:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1 gcr.io/qurasense-master-e2e/service_lab:v1
+    - docker push gcr.io/qurasense-master-e2e/service_user:v1
+    - docker push gcr.io/qurasense-master-e2e/service_health:v1
+    - docker push gcr.io/qurasense-master-e2e/service_gateway:v1
+    - docker push gcr.io/qurasense-master-e2e/service_communication:v1
+    - docker push gcr.io/qurasense-master-e2e/service_lab:v1
+  only:
+    - master
+  dependencies:
+    - build_java
+
+push_production_images:
+  stage: production_docker_images
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_user:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_health:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1 gcr.io/qurasense-prod-1/service_gateway:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_user:v1 gcr.io/qurasense-prod-1/service_user:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_health:v1 gcr.io/qurasense-prod-1/service_health:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1 gcr.io/qurasense-prod-1/service_communication:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1 gcr.io/qurasense-prod-1/service_lab:v1
+    - docker login -u _json_key -p "$(cat QurasenseProd.json)" https://gcr.io
+    - docker push gcr.io/qurasense-prod-1/service_gateway:v1
+    - docker push gcr.io/qurasense-prod-1/service_user:v1
+    - docker push gcr.io/qurasense-prod-1/service_health:v1
+    - docker push gcr.io/qurasense-prod-1/service_communication:v1
+    - docker push gcr.io/qurasense-prod-1/service_lab:v1
+  when: manual
+  only:
+    - master
+  dependencies:
+  - docker_images
+
+push_preproduction_images:
+  stage: production_docker_images
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_user:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_health:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1
+    - docker pull registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_gateway:v1 gcr.io/qurasense-preprod-1/service_gateway:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_user:v1 gcr.io/qurasense-preprod-1/service_user:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_health:v1 gcr.io/qurasense-preprod-1/service_health:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_lab:v1 gcr.io/qurasense-preprod-1/service_lab:v1
+    - docker tag registry.gitlab.com/qurasense-dev/qurasense/service_communication:v1 gcr.io/qurasense-preprod-1/service_communication:v1
+    - docker login -u _json_key -p "$(cat QurasensePreProd.json)" https://gcr.io
+    - docker push gcr.io/qurasense-preprod-1/service_gateway:v1
+    - docker push gcr.io/qurasense-preprod-1/service_user:v1
+    - docker push gcr.io/qurasense-preprod-1/service_health:v1
+    - docker push gcr.io/qurasense-preprod-1/service_lab:v1
+    - docker push gcr.io/qurasense-preprod-1/service_communication:v1
+  when: manual
+  only:
+    - master
+  dependencies:
+  - docker_images
+
+deploy_master_e2e:
+  image: google/cloud-sdk
+  stage: e2e_deploy
+  script:
+  - cat Qurasense-master-e2e.json > key.json # Google Cloud service account key
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone us-central1-c
+  - gcloud config set project qurasense-master-e2e
+  - gcloud datastore create-indexes .emulator_data/datastore/WEB-INF/index.yaml
+  - gcloud container clusters get-credentials qurasense-cluster
+  - kubectl delete secret google-key --ignore-not-found
+  - kubectl create secret generic google-key --from-file=key.json
+  - kubectl apply -f kubernetes-master-e2e.yml
+  - kubectl delete pods --all
+  environment:
+    name: master-e2e
+    url: http://35.224.102.138
+  only:
+    - master
+
+create_master_e2e_test_data:
+  stage: e2e_test_data
+  image: google/dart
+  cache:
+    paths:
+      - /var/cache/pub
+  script:
+    - cd app/facade
+    - pub get
+    - dart lib/src/testdata/test_data_launcher.dart -b PRODUCTION -u http://35.224.102.138 app/facade/
+  only:
+    - master
+
+execute_master_e2e_test:
+  stage: e2e_test
+  image: registry.gitlab.com/qurasense-dev/qurasense/chrome_gradle
+  variables:
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    E2E_TEST_URL: "http://35.224.102.138"
+    E2E_TEST_HEADLESS: "true"
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script:
+    - cd testing/gui_tests
+    - gradle test
+  allow_failure: true
+  artifacts:
+      paths:
+        - testing/gui_tests/build
+      expire_in: 1 week
+      when: on_failure
+  only:
+    - master
+
+undeploy_master_e2e:
+  image: google/cloud-sdk
+  stage: e2e_undeploy
+  script:
+  - cat Qurasense-master-e2e.json > key.json # Google Cloud service account key
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone us-central1-c
+  - gcloud config set project qurasense-master-e2e
+  - gcloud container clusters get-credentials qurasense-cluster
+  - kubectl delete secret google-key --ignore-not-found
+  - kubectl create secret generic google-key --from-file=key.json
+  - kubectl delete deployments --all
+  only:
+    - master
+
+k8s-deploy:
+  image: google/cloud-sdk
+  stage: deploy
+  script:
+  - echo "$GOOGLE_KEY" > key.json # Google Cloud service account key
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone us-central1-c
+  - gcloud config set project qurasense-test-1 
+  - gcloud datastore create-indexes .emulator_data/datastore/WEB-INF/index.yaml
+  - gcloud container clusters get-credentials qurasense-test-cluster
+  - kubectl delete secret google-key --ignore-not-found
+  - kubectl create secret generic google-key --from-file=key.json
+  - kubectl apply -f kubernetes-test.yml
+  - kubectl delete pods --all
+  environment:
+    name: test
+    url: http://test.qurasense.com
+  only:
+    - master
+
+k8s-deploy-producation:
+  image: google/cloud-sdk
+  stage: deploy
+  script:
+  - cat QurasenseProd.json > key.json # Google Cloud service account key
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set compute/zone us-central1-c
+  - gcloud config set project qurasense-prod-1
+  - gcloud datastore create-indexes .emulator_data/datastore/WEB-INF/index.yaml
+  - gcloud container clusters get-credentials qurasense-cluster
+  - kubectl delete secret google-key --ignore-not-found
+  - kubectl create secret generic google-key --from-file=key.json
+  - kubectl apply -f kubernetes-prod.yml
+  - kubectl delete pods --all
+  environment:
+    name: production
+    url: http://trial.qurasense.com
+  when: manual
+  only:
+    - master
+  dependencies:
+  - push_production_images
+
+k8s-deploy-preproducation:
+  image: google/cloud-sdk
+  stage: deploy
+  script:
+  - gcloud auth activate-service-account --key-file QurasenseDatastoreImportExport.json
+  - gcloud config set compute/zone us-central1-c
+  - gcloud config set project qurasense-prod-1
+  - COPY_FROM_FOLDER=`gcloud datastore export --namespaces="(default)" gs://preprod-qurasense-prod-1|grep outputUrlPrefix|grep -oE '[^ ]+$'`
+  - COPY_TO_FOLDER=`echo ${COPY_FROM_FOLDER/preprod-qurasense-prod-1/import-qurasense-preprod-1}`
+  - IMPORT_STORAGE_PATH=`echo $COPY_TO_FOLDER/${COPY_TO_FOLDER##*/}.overall_export_metadata`
+  - cat QurasensePreProd.json > key.json # Google Cloud service account key
+  - gcloud auth activate-service-account --key-file key.json
+  - gcloud config set project qurasense-preprod-1
+  - gsutil cp -r $COPY_FROM_FOLDER $COPY_TO_FOLDER
+  - gcloud datastore import --namespaces="(default)" ${IMPORT_STORAGE_PATH}
+  - gsutil -m cp -r gs://qurasense-prod-1-sample-image gs://qurasense-preprod-1-sample-image
+  - gcloud datastore create-indexes .emulator_data/datastore/WEB-INF/index.yaml
+  - gcloud container clusters get-credentials qurasense-cluster
+  - kubectl delete secret google-key --ignore-not-found
+  - kubectl create secret generic google-key --from-file=key.json
+  - kubectl apply -f kubernetes-preprod.yml
+  - kubectl delete pods --all
+  environment:
+    name: production
+    url: http://35.224.12.153
+  when: manual
+  only:
+    - master
+
+create-test-data:
+  stage: test_data
+  image: google/dart
+  cache:
+    paths:
+      - /var/cache/pub
+  script:
+    - cd app/facade
+    - pub get
+    - dart lib/src/testdata/test_data_launcher.dart -b PRODUCTION -u https://test.qurasense.com
+  only:
+    - master
+
+after_script:
+  - echo "End CI"

@@ -1,0 +1,7 @@
+<form [ngFormModel]="form" (ngSubmit)="onSubmit()">
+    <input ngControl="name" placeholder="Name">
+    <button type="submit" class="btn btn-danger">Save</button>
+</form>
+
+<!--p>Value: {{ form.value | json }}</p>
+<p>Validation status: {{ form.status }}</p-->

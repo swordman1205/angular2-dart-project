@@ -1,0 +1,21 @@
+@import '../../../../../styles/shared';
+
+:host {
+  &.red {
+    .page-header {
+      display: flex;
+      z-index: 100;
+      nav.page-header-nav {
+        a {
+          color: $red;
+        }
+      }
+      @include mq(tablet) {
+        background-color: $transparent;
+      }
+    }
+  }
+  &.bg-light {
+    background-color: $background--light;
+  }
+}

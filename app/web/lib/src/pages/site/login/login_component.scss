@@ -1,0 +1,38 @@
+@import "../widgets/site-content/page_component";
+@import "../../../../styles/shared";
+
+.login {
+  @include mq(false, tablet) {
+    height: 100%;
+  }
+  .page-article {
+    background-color: $background--light;
+    .page-article_text {
+      color: $purple;
+      box-sizing: border-box;
+    }
+    .input-wrapper,
+    .signup-wrapper {
+      box-sizing: border-box;
+      .error-box {
+        max-width: 100%;
+      }
+      .page-article_text {
+        display: block;
+        font-size: 12px;
+        line-height: 15px;
+        margin-top: 15px;
+        margin-bottom: 12px;
+        color: $black--light;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  material-button {
+    margin-top: 10px !important;
+    display: inline-block !important;
+  }
+}

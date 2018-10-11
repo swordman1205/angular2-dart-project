@@ -1,0 +1,98 @@
+<h2 class="step-title" (click)="toggle()">
+    <span class="text">{{ name }}</span>
+    <span class="icon">
+        <svg>
+            <use class="mobile-arrow" xlink:href="#mobile-arrow-fab"></use>
+        </svg>
+    </span>
+</h2>
+<form [hidden]="!active">
+    <nav class="step-progress">
+        <material-fab *ngFor="let step of steps" mini [class.active]="isCurrentStep(step)" (click)="navigateToStep(step)">
+            <material-icon icon="{{getProgressIcon(step)}}"></material-icon>
+        </material-fab>
+    </nav>
+
+    <div class="step-content-wrapper">
+        <section class="step-content" [class.active]="isCurrentStep('last-period-date')">
+            <form class="step-form" [ngFormModel]="firstDateLastPeriodForm">
+                <h3 class="step-subtitle">First day of your last period</h3>
+                <p class="step-paragraph">
+                    We need to understand how you generally experience menstrual flow. First, when was the first day of your last menstrual cycle?
+                </p>
+                <div class="form-input">
+                    <date-selector [(ngModel)]="userData.firstDateOfLastPeriod"
+                                   (ngModelChange)="resetSubmitted()"
+                                   autofocus
+                                   ngControl="firstDateOfLastPeriod"
+                                   #firstDateOfLastPeriod="ngForm"
+                                   required></date-selector>
+                    <ul class="error-box" [hidden]="firstDateLastPeriodForm.valid || !submitted">
+                        <li [hidden]="!firstDateOfLastPeriod.control.hasError('required')" class="error">This field is required</li>
+                        <li [hidden]="!firstDateOfLastPeriod.control.hasError('tooLongPeriod')" class="error">
+                            Sorry, you need a regular menstrual period in order to use our product
+                        </li>
+                        <li [hidden]="!firstDateOfLastPeriod.control.hasError('fromFuture')" class="error">
+                            Wops, even though you surely know yourself the best, you cant possibly know when you have your period next ;)
+                        </li>
+                        <li [hidden]="!firstDateOfLastPeriod.control.hasError('invalid')" class="error">
+                            Invalid date.
+                        </li>
+                    </ul>
+                </div>
+                <div class="w-sm-100">
+                    <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                        back
+                    </material-button>
+                    <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="jumpToNextStep()" raised>
+                        <svg>
+                            <use class="arrow" xlink:href="#arrow-purple"></use>
+                        </svg>
+                    </material-button>
+                </div>
+            </form>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('period-length')">
+            <h3 class="step-subtitle">Typical length of Period</h3>
+            <p class="step-paragraph">
+                How many days do you on average bleed during your period, including spotting?
+            </p>
+            <number-picker [(value)]="userData.averagePeriodLength" [min]="1" [max]="365"></number-picker>
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+                <material-button class="btn-next btn btn-in btn-purple pull-right-sm" (trigger)="navigateToNext()" raised>
+                    <svg>
+                        <use class="arrow" xlink:href="#arrow-purple"></use>
+                    </svg>
+                </material-button>
+            </div>
+        </section>
+
+        <section class="step-content" [class.active]="isCurrentStep('cycle-length')">
+            <h3 class="step-subtitle">Typical length of cycle</h3>
+            <p class="step-paragraph">
+                How many days on average are between your periods counting from the first day of one period until the first day of the next?
+            </p>
+            <number-picker [(value)]="userData.typicalCycleLength" [min]="1" [max]="365"></number-picker>
+
+            <material-button class="btn btn-in btn-purple" (trigger)="confirm()" [disabled]="userData.typicalCycleLength == null" raised>
+                <svg>
+                    <use class="arrow" xlink:href="#arrow-purple"></use>
+                </svg>
+            </material-button>
+
+            <div class="w-sm-100">
+                <material-button class="btn btn-in btn-purple pull-left-sm hidden-md hidden-lg" (trigger)="navigateToPrevious()" raised>
+                    back
+                </material-button>
+            </div>
+        </section>
+    </div>
+    <material-button class="btn btn-out btn-purple btn-back active" (trigger)="navigateToPrevious()">
+        back
+    </material-button>
+</form>
+

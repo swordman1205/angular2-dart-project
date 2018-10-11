@@ -1,0 +1,17 @@
+<form [ngFormModel]="form" (ngSubmit)="onSubmit()">
+    <input ngControl="name" placeholder="Name">
+    <div ngControlGroup="range">
+        <label class="center-block">Min:
+            <input ngControl="min" type="number" placeholder="Min">
+        </label>
+        <label class="center-block">Max:
+            <input ngControl="max" type="number" placeholder="Max">
+        </label>
+    </div>
+    <button type="submit"
+            class="btn btn-danger">Save
+    </button>
+</form>
+
+<!--p>Value: {{ form.value | json }}</p>
+<p>Validation status: {{ form.status }}</p-->

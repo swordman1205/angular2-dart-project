@@ -1,0 +1,9 @@
+include 'common'
+include 'communication'
+include 'axon-datastore'
+include 'gateway'
+include 'health'
+include 'lab'
+include 'user'
+
+
